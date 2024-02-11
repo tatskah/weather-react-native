@@ -8,6 +8,7 @@
       "expo-router"
     ],
     "name": "weather-react-native",
-    "slug": "weather-react-native"
+    "slug": "weather-react-native",
+    "permissions": ["LOCATION"]
   }
 }

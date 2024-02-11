@@ -1,19 +1,19 @@
 import { StyleSheet } from "react-native";
-import { SIZES, COLORS } from '../../constants'
+import { SIZES, MAIN_COLORS } from '../../constants'
 
 const styles = StyleSheet.create({
 
     container: {
         flex: 1,
-        backgroundColor: "#555",
+        backgroundColor: MAIN_COLORS.row_item_background,
     },
 
     content: {
         flex: 1,
-        padding: 0,
+        padding: 2,
         paddingTop: 50,
         marginBottom: 54,
-        backgroundColor: "#555",
+        backgroundColor: MAIN_COLORS.row_item_background,
     },
 
     new_icon: {
@@ -26,9 +26,7 @@ const styles = StyleSheet.create({
     empty_list_content: {
         justifyContent: "center",
         backgroundColor: "#1F6702",
-        shadowColor: "#98FF6F",
         borderColor: "#98FF6F",
-        shadowRadius: 4,
         width: 300,
         height: 100,
         borderWidth: 2,
@@ -45,7 +43,9 @@ const styles = StyleSheet.create({
 
     listItem: {
         backgroundColor: "#888",
-
+    },
+    indicator: {
+        paddingTop: 200,
 
     }
 });

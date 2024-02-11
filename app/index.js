@@ -35,7 +35,6 @@ const Index = () =>
               paddingHorizontal: 2,
               paddingTop: 0,
               borderBottomColor: "#98FF6F",
-              shadowRadius: 8,
               inactiveColor: styles.tab_navi_bottom.inactiveColor,
 
               paddingBottom: 4,

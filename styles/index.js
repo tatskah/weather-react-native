@@ -24,21 +24,23 @@ const styles = StyleSheet.create({
   },
 
   appHeader: {
-    flex: 1,
+    flex: 2,
+    flexDirection: "row",
     backgroundColor: MAIN_COLORS.header_tab_background,
     height: 50,
-    alignItems: 'flex-start',
-    justifyContent: 'center',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     alignSelf: "flex-start",
     position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
     zIndex: 1,
+
   },
   appHeaderText: {
     fontSize: 18,
-    textAlign: "center",
+    textAlign: "left",
     padding: 8,
     color: MAIN_COLORS.header_tab_forecolor,
     backgroundColor: MAIN_COLORS.header_tab_background,

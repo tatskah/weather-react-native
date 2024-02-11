@@ -4,40 +4,49 @@ import { MAIN_COLORS } from "../../constants";
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        // justifyContent: "space-between",
-        // alignItems: "stretch",
+        justifyContent: "space-between",
         flexDirection: "column",
-        padding: 2,
+        padding: 1,
         margin: 2,
-        marginLeft: 0,
-        marginRight: 0,
-        marginTop: 0,
-        // borderColor: "#CCCCCC",
+        borderColor: MAIN_COLORS.row_item_bordercolor,
         borderWidth: 1,
         borderRadius: 4,
         backgroundColor: MAIN_COLORS.container_background,
-        // shadowColor: "#CCCCCC",
-        shadowRadius: 1,
-        width: "100%"
+        borderColor: MAIN_COLORS.row_item_bordercolor
     },
-    info: {
-        flex: 1,
-        fontWeight: "bold",
+    weather_title: {
+        flexDirection: "row",
+        justifyContent: "space-around",
         height: 24,
+        padding: 2,
+    },
+    date_add: {
+        flex: 2,
+        fontWeight: "bold",
+        color: MAIN_COLORS.header_tab_forecolor,
+    },
+    temp_morning: {
+        flex: 1,
+        color: MAIN_COLORS.header_tab_forecolor,
+    },
+    temp_middle: {
+        flex: 1,
+        color: MAIN_COLORS.header_tab_forecolor,
+    },
+    temp_evening: {
+        flex: 1,
         color: MAIN_COLORS.header_tab_forecolor,
     },
     weather_row: {
         flex: 1,
         padding: 1,
-        // justifyContent: "space-around",
-        flexDirection: "row",
-        width: "100%"
-    },
-    weather_row_item: {
         backgroundColor: MAIN_COLORS.row_item_background,
         color: MAIN_COLORS.row_item_forecolor,
+        width: "100%"
+    },
+    weather_row_info: {
+        color: MAIN_COLORS.row_item_forecolor,
         padding: 2,
-
     },
     separator: {
         height: 1,
@@ -46,16 +55,18 @@ const styles = StyleSheet.create({
 
     },
     item_title: {
-        color: MAIN_COLORS.header_tab_forecolor,
-        backgroundColor: "#555",
-        textShadowColor: MAIN_COLORS.header_tab_forecolor,
-        fontWeight: "bold",
-        padding: 2,
-        borderBottomWidth: 1,
-        borderBottomColor: MAIN_COLORS.header_tab_forecolor,
-        borderBottomRightRadius: 1,
-        height: 24,
-        width: "100%"
+        // flex: 1,
+        // flexDirection: "row",
+        // justifyContent: "space-between",
+        // color: MAIN_COLORS.header_tab_forecolor,
+        // backgroundColor: "#555",
+        // fontWeight: "bold",
+        // padding: 2,
+        // borderBottomWidth: 1,
+        // borderBottomColor: MAIN_COLORS.header_tab_forecolor,
+        // borderBottomRightRadius: 1,
+        // height: 24,
+        // width: "100%"
     }
 
 

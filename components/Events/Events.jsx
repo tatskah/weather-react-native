@@ -1,14 +1,10 @@
 import { useEffect, useState } from "react";
-import { Text, View, Pressable, Image, FlatList } from "react-native";
-
+import { Text, View, Pressable, Image, FlatList, ActivityIndicator } from "react-native";
 import Event from '../Event/Event'
 import mainStyles from '../../styles';
 import styles from './events.style'
 import { icons } from '../../constants';
-
 import EventService from '../../services/events.service';
-
-
 
 const Events = ({ navigation }) =>
 {
@@ -25,22 +21,19 @@ const Events = ({ navigation }) =>
     const getData = async () =>
     {
         const response = await EventService.getEvents();
-
         // console.log(response.data);
-
         setData(response.data);
-
     }
 
     const renderItem = ({ item }) => (
-        <View style={styles.listItem}>
+        <View>
             <Event navigation={navigation} key={`item-${item.id}`} item={item} />
         </View>
     );
 
     return (
         <View style={styles.container}>
-            <View style={[mainStyles.appHeader, { flex: 2, flexDirection: "row", justifyContent: 'space-around', alignItems: "center", }]}>
+            <View style={mainStyles.appHeader}>
                 <Text style={mainStyles.appHeaderText}>Tapahtumat - {data.length} kpl.</Text>
 
                 <View style={{ flex: 1, }}>
@@ -50,7 +43,6 @@ const Events = ({ navigation }) =>
                 </View>
             </View>
 
-
             <View style={styles.content}>
                 <FlatList
                     data={data}
@@ -58,8 +50,8 @@ const Events = ({ navigation }) =>
                     keyExtractor={(item) => item.id}
                     showsVerticalScrollIndicator={false}
                     ListEmptyComponent={() => (!data.length ?
-                        <View style={styles.empty_list_content}>
-                            <Text style={styles.empty_text}>Ei tietueita!</Text>
+                        <View style={styles.indicator}>
+                            <ActivityIndicator size="large" color="#FCB419" />
                         </View>
                         : null)}
                 />

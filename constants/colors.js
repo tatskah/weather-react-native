@@ -1,9 +1,10 @@
 const MAIN_COLORS = {
-    header_tab_background: "#3D4234",
+    header_tab_background: "#1A1717",
     header_tab_forecolor: "#FCB419",
-    container_background: "#767165",
+    container_background: "#303032",
     row_item_forecolor: "#FAD884",
-    row_item_background: "#6F6E6E"
+    row_item_bordercolor: "#49494C",
+    row_item_background: "#303032"
 
 };
 
