@@ -15,17 +15,17 @@ const WeatherCard = ({ item, navigation }) =>
             <View style={styles.card}>
                 <View style={{ flex: 3 }}>
                     <View style={{ flex: 1, flexDirection: "row", alignItems: "flex-start" }}>
-                        <Text style={[styles.item_text_color, { flex: 3 }]}>{item.time}</Text>
+                        <Text style={[styles.item_text_color, { flex: 3, fontWeight: "900" }]}>{item.time}</Text>
                         <Text style={[styles.item_text_color, { flex: 2, textAlign: "right" }]}>{item.temperature} &deg;C</Text>
                     </View>
                     <View style={{ flex: 1, flexDirection: "row", alignItems: "flex-start" }}>
                         <Text style={[styles.item_text_color, { flex: 3 }]}>{WeatherText(item.weather_code)}</Text>
-                        <Text style={[styles.item_text_color, { flex: 2, textAlign: "right" }]}>Sade: {item.rain}</Text>
+                        {/* <Text style={[styles.item_text_color, { flex: 2, textAlign: "right" }]}>Sade: {item.rain}</Text> */}
                     </View>
                 </View>
-                <View style={{ flex: 1, alignItems: "center" }}>
+                <View style={{ flex: 1, alignItems: "center", paddingTop: 2 }}>
                     <MaterialCommunityIcons
-                        size={24}
+                        size={30}
                         name={WeatherType(item.weather_code)}
                         color={MAIN_COLORS.row_item_forecolor}
                     />

@@ -5,70 +5,77 @@ import styles from './homepage.style';
 import WeatherService from "../../services/weather.service";
 import { format } from 'date-fns';
 import WeatherCard from '../WeatherCard/WeatherCard';
+// import Geolocation from '@react-native-community/geolocation';
 
-const HomePage = ({ navigation }) =>
-{
+const HomePage = ({ navigation }) => {
     const [dailyData, setDailyData] = useState([]);
     const [lat, setLat] = useState();
     const [lng, setLng] = useState();
 
-    useEffect(() =>
-    {
-        const unsubscribe = navigation.addListener('focus', () =>
-        {
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
             getWeatherData();
         });
         return unsubscribe;
+
     }, [navigation])
 
-    const getWeatherData = async () =>
-    {
+    const getWeatherData = async () => {
         let ret_data = [];
-        let lat = 0;
-        let lng = 0;
+        let lat = 66.105190;
+        let lng = 28.146335;
 
-        try
-        {
-            navigator.geolocation.getCurrentPosition(
-                async position =>
-                {
-                    lat = position.coords.latitude;
-                    lng = position.coords.longitude;
-                    setLat(lat.toFixed(2));
-                    setLng(lng.toFixed(2));
-                    ret_data = await WeatherService.getWeatherData(lat, lng);
-                    createData(ret_data);
-                }
-            )
-        } catch (error)
-        {
+        // try {
+        //     if (Geolocation) {
+        //         Geolocation.getCurrentPosition(
+        //             async position => {
+        //                 lat = position.coords.latitude;
+        //                 lng = position.coords.longitude;
+        //                 setLat(lat.toFixed(2));
+        //                 setLng(lng.toFixed(2));
+        //                 ret_data = await WeatherService.getWeatherData(lat, lng);
+        //                 createData(ret_data);
+        //             },
+        //             (error) => console.log(new Date(), error),
+        //             { enableHighAccuracy: false, timeout: 10000, maximumAge: 3000 }
+        //         )
+        //     } else {
+        //         console.error('Geolocation is not supported.');
+        //     }
+        // } catch (error) {
+        //     console.log(error);
+        // }
+        try {
+            setLat(lat.toFixed(2));
+            setLng(lng.toFixed(2));
+            ret_data = await WeatherService.getWeatherData(lat, lng);
+            createData(ret_data);
+        } catch (error) {
             console.log(error);
         }
+
+
+
     }
 
-    const createData = async (data) =>
-    {
+    const createData = async (data) => {
         let daily_data;
         let items = [{}];
         let idx = 0;
-        try
-        {
+        try {
             const daily = data.data.daily.time;
             const hourly = data.data;
 
-            await daily.forEach(day =>
-            {
+            await daily.forEach(day => {
                 idx++;
                 daily_data = hourly.hourly.time
-                    .map((item, index) =>
-                    {
+                    .map((item, index) => {
                         if (item === day + 'T00:00'
                             || item === day + 'T04:00'
                             || item === day + 'T08:00'
                             || item === day + 'T12:00'
                             || item === day + 'T16:00'
-                            || item === day + 'T20:00')
-                        {
+                            || item === day + 'T20:00') {
                             return {
                                 'time': format(hourly.hourly.time[index], 'dd.MM.yyyy HH:mm'),
                                 'temperature': hourly.hourly.temperature_2m[index],
@@ -76,22 +83,18 @@ const HomePage = ({ navigation }) =>
                                 'rain': hourly.hourly.rain[index],
                                 'idx': index + idx
                             }
-                        } else
-                        {
+                        } else {
                             return null;
                         }
                     }).filter(items => items != null);
 
-                if (items.length < 2)
-                {
+                if (items.length < 2) {
                     items = daily_data;
-                } else
-                {
+                } else {
                     items = items.concat(daily_data);
                 }
             });
-        } catch (error)
-        {
+        } catch (error) {
             prt(error);
             return [];
         }
@@ -109,7 +112,8 @@ const HomePage = ({ navigation }) =>
     return (
         <View style={mainStyles.container}>
             <View style={mainStyles.appHeader}>
-                <Text style={mainStyles.appHeaderText}>Viikon sää <Text style={{ flex: 1, paddingLeft: 70, fontSize: 11 }}>Lat: {lat} Lng: {lng}</Text></Text>
+                <Text style={[mainStyles.appHeaderText, { flex: 2 }]}>Viikon sää </Text>
+                <Text style={[mainStyles.appHeaderText, { flex: 1, fontSize: 11 }]}>Lat:{lat} Lng:{lng}</Text>
             </View>
             <View style={styles.content}>
                 <FlatList

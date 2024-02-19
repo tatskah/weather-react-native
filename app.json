@@ -7,8 +7,26 @@
     "plugins": [
       "expo-router"
     ],
-    "name": "weather-react-native",
-    "slug": "weather-react-native",
-    "permissions": ["LOCATION"]
+    "version": "1.0.0",
+    "icon": "./assets/icons/cloud-rain2.png",
+    "name": "Sääohjelma",
+    "slug": "weather-app",
+    "description": "Tämä on sääohjelma sovellus",
+    "orientation": "portrait",
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "0545247c-7c14-44f0-87bf-6bcffd6cd2dc"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "android": {
+      "package": "com.tase64.weatherapp"
+    },
+    "ios": {}
   }
 }

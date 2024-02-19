@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
   },
   tab_navi_bottom: {
     activeColor: MAIN_COLORS.header_tab_forecolor,
-    inactiveColor: "#98FF6F",
+    inactiveColor: MAIN_COLORS.header_tab_forecolor,
     backgroundColor: MAIN_COLORS.header_tab_background,
   },
 

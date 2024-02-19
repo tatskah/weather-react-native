@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
         backgroundColor: MAIN_COLORS.container_background,
         height: 50,
         borderWidth: 1,
-        borderRadius: 4,
+        borderRadius: 6,
         borderColor: MAIN_COLORS.row_item_bordercolor,
         margin: 2,
         padding: 6,

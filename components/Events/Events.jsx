@@ -6,22 +6,19 @@ import styles from './events.style'
 import { icons } from '../../constants';
 import EventService from '../../services/events.service';
 
-const Events = ({ navigation }) =>
-{
+const Events = ({ navigation }) => {
     const [data, setData] = useState([]);
 
-    useEffect(() =>
-    {
-        const unsubscribe = navigation.addListener('focus', () =>
-        {
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
             getData();
         });
+        return unsubscribe;
+
     }, [navigation])
 
-    const getData = async () =>
-    {
+    const getData = async () => {
         const response = await EventService.getEvents();
-        // console.log(response.data);
         setData(response.data);
     }
 
