@@ -4,8 +4,8 @@ const MAIN_COLORS = {
     container_background: "#303032",
     row_item_forecolor: "#FAD884",
     row_item_bordercolor: "#49494C",
-    row_item_background: "#303032"
-
+    row_item_background: "#303032",
+    form_button_background: "#945A16"
 };
 
 

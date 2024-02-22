@@ -6,11 +6,13 @@ import WeatherService from "../../services/weather.service";
 import { format } from 'date-fns';
 import WeatherCard from '../WeatherCard/WeatherCard';
 // import Geolocation from '@react-native-community/geolocation';
+// import { APP_NAME } from '@env';
 
 const HomePage = ({ navigation }) => {
     const [dailyData, setDailyData] = useState([]);
     const [lat, setLat] = useState();
     const [lng, setLng] = useState();
+    const [requestError, setRequestError] = useState('');
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
@@ -24,7 +26,6 @@ const HomePage = ({ navigation }) => {
         let ret_data = [];
         let lat = 66.105190;
         let lng = 28.146335;
-
         // try {
         //     if (Geolocation) {
         //         Geolocation.getCurrentPosition(
@@ -51,11 +52,9 @@ const HomePage = ({ navigation }) => {
             ret_data = await WeatherService.getWeatherData(lat, lng);
             createData(ret_data);
         } catch (error) {
+            setRequestError(error);
             console.log(error);
         }
-
-
-
     }
 
     const createData = async (data) => {
@@ -116,6 +115,13 @@ const HomePage = ({ navigation }) => {
                 <Text style={[mainStyles.appHeaderText, { flex: 1, fontSize: 11 }]}>Lat:{lat} Lng:{lng}</Text>
             </View>
             <View style={styles.content}>
+                {requestError != '' ?
+                    <View style={{ padding: 10, height: 200, backgroundColor: "#DDD", width: "100%", color: "#880027" }}>
+                        {requestError}
+                    </View>
+                    :
+                    <View />
+                }
                 <FlatList
                     data={dailyData}
                     renderItem={renderItem}

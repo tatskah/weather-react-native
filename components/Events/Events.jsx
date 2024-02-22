@@ -31,12 +31,13 @@ const Events = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <View style={mainStyles.appHeader}>
-                <Text style={mainStyles.appHeaderText}>Tapahtumat - {data.length} kpl.</Text>
-
-                <View style={{ flex: 1, }}>
-                    <Pressable onPress={() => navigation.navigate('EventForm', { id: 0 })}>
-                        <Image source={icons.new2} style={styles.new_icon} />
-                    </Pressable>
+                <View style={{ flex: 1, flexDirection: "row", alignContent: "space-between" }}>
+                    <Text style={[mainStyles.appHeaderText, { flex: 2 }]}>Tapahtumat - {data.length} kpl.</Text>
+                    <View style={{ flex: 1, alignItems: "flex-end", marginTop: 6, marginRight: 6 }}>
+                        <Pressable onPress={() => navigation.navigate('EventForm', { id: 0 })}>
+                            <Image source={icons.new2} style={styles.new_icon} />
+                        </Pressable>
+                    </View>
                 </View>
             </View>
 

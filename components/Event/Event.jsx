@@ -12,7 +12,7 @@ const Event = ({ item, navigation }) => {
         >
             <View >
                 <View style={styles.weather_title}>
-                    <Text style={styles.date_add}>{format(item.add_date, 'dd.MM.yyyy')} </Text>
+                    <Text style={styles.date_add}>{format(item.add_date, ' dd.MM.yyyy')} </Text>
                     <Text style={styles.temp_morning}>{item.temp_morning} </Text>
                     <Text style={styles.temp_middle}>{item.temp_middle} </Text>
                     <Text style={styles.temp_evening}>{item.temp_evening} </Text>

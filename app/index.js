@@ -4,16 +4,17 @@ import { Stack, useNavigation, useRouter } from "expo-router";
 import { icons } from '../constants';
 import styles from '../styles';
 
-import { Events, EventForm, HomePage } from '../components';
+import { Events, EventForm, HomePage, Settings } from '../components';
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 
 // import PermissionsManagement from "../utils/Permissions";
 import { WeatherEnums } from "../utils/WeatherEnums";
+// import SplashScreen from 'rn-splash-screen';
+import { useEffect } from "react";
 
-const Index = () =>
-{
+const Index = () => {
   const Tab = createBottomTabNavigator();
   const router = useRouter();
   const navigation = useNavigation();
@@ -77,13 +78,25 @@ const Index = () =>
           />
 
           <Tab.Screen name='EventForm' component={EventForm}
+            initialParams={{ id: 0 }}
             options={{
-
-              // tabBarButton: () => null,
+              tabBarButton: () => null,
+              tabBarLabel: "Lisää tapahtuma",
               tabBarLabelStyle: { color: styles.tab_navi_bottom.activeColor },
               tabBarVisible: true,
               tabBarIcon: () => (
-                <Image source={icons.report} style={styles.toolbar_bottom_icon} />
+                <Image source={icons.new2} style={styles.toolbar_bottom_icon} />
+              )
+            }}
+          />
+
+          <Tab.Screen name="Settings" component={Settings}
+            options={{
+              tabBarLabel: "Asetukset",
+              tabBarLabelStyle: { color: styles.tab_navi_bottom.activeColor },
+              tabBarVisible: true,
+              tabBarIcon: () => (
+                <Image source={icons.settings} style={styles.toolbar_bottom_icon} />
               )
             }}
           />

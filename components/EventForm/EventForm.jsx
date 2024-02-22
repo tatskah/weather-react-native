@@ -1,20 +1,17 @@
-import { Text, View, TextInput, SafeAreaView, ScrollView, Pressable } from "react-native";
+import { Text, View, TextInput, SafeAreaView, ScrollView, Pressable, Modal } from "react-native";
 import { useEffect, useState } from "react";
 import mainStyles from '../../styles/';
 import styles from './eventform.style';
 import EventsService from "../../services/events.service";
 import { format } from 'date-fns';
 import CalendarPicker from "react-native-calendar-picker";
-
-// import RNPickerSelect, { defaultStyles } from 'react-native-picker-select';
 import SelectDropdown from 'react-native-select-dropdown'
-
 import { MAIN_COLORS } from "../../constants";
 import WeatherTypes from "../../utils/WeatherTypes";
-import { Button } from "react-native-web";
 
 const EventForm = ({ route, navigation }) => {
     const { id } = route.params;
+
     const [addDate, setAddDate] = useState(Date.now());
     const [calDate, setCalDate] = useState();
     const [info, setInfo] = useState('');
@@ -27,6 +24,9 @@ const EventForm = ({ route, navigation }) => {
     const [weatherTypeMorning, setWeatherTypeMorning] = useState(0);
     const [weatherTypeMiddle, setWeatherTypeMiddle] = useState(0);
     const [weatherTypeEvening, setWeatherTypeEvening] = useState(0);
+
+    const [showModal, setShowModal] = useState(false);
+    const [visibleTime, setVisibleTime] = useState(0);
 
     const [isLoading, setIsLoading] = useState('');
 
@@ -60,14 +60,15 @@ const EventForm = ({ route, navigation }) => {
             setWeatherTypeMiddle(data.wtype_middle);
             setWeatherTypeEvening(data.wtype_evening);
         } else {
-            setAddDate(Date.now());
-            setInfo('');
-            setTempMorning('');
-            setTempMiddle('');
-            setTempEvening('');
-            setWeatherTypeMorning('0');
-            setWeatherTypeMiddle('0');
-            setWeatherTypeEvening('0');
+            // setAddDate(Date.now());
+            // setInfo('');
+            // setTempMorning('');
+            // setTempMiddle('');
+            // setTempEvening('');
+            // setWeatherTypeMorning('0');
+            // setWeatherTypeMiddle('0');
+            // setWeatherTypeEvening('0');
+            resetForm();
         }
         setIsLoading(false);
 
@@ -94,14 +95,35 @@ const EventForm = ({ route, navigation }) => {
         }
         const saveData = await EventsService.addEvent(data);
 
-        console.log(data);
-        console.log(saveData);
-    }
+        setShowModal(true);
+
+        setTimeout(() => {
+            setShowModal(false);
+        }, 2000);
+
+        setTimeout(() => {
+            navigation.navigate("Events");
+        }, 2500);
+
+    };
     const updateEvent = () => {
         console.log("update");
+    };
+
+    const cancelForm = () => {
+        resetForm();
+        navigation.navigate("Events");
     }
-
-
+    const resetForm = () => {
+        setAddDate(Date.now());
+        setInfo('');
+        setTempMorning('');
+        setTempMiddle('');
+        setTempEvening('');
+        setWeatherTypeMorning('0');
+        setWeatherTypeMiddle('0');
+        setWeatherTypeEvening('0');
+    };
 
     return (
 
@@ -116,9 +138,8 @@ const EventForm = ({ route, navigation }) => {
                             startFromMonday={true}
                             // scrollable={true}
                             scaleFactor={450}
-                            // width={320}
-                            // selectedStartDate={new Date(2003, 12, 12).getTime()}
 
+                            // selectedStartDate={new Date(2003, 2, 2)}
                             onDateChange={(date) => setAddDate(date)}
                             selectedDayColor={MAIN_COLORS.header_tab_forecolor}
                             textStyle={{ color: MAIN_COLORS.row_item_forecolor }}
@@ -129,7 +150,7 @@ const EventForm = ({ route, navigation }) => {
                         />
                     </View>
                     <TextInput
-                        style={styles.input}
+                        style={[styles.input, { margin: 6, paddingLeft: 10 }]}
                         value={addDate ? format(addDate, 'dd.MM.yyyy HH:ss') : ''}
                         editable={false}
                         onChangeText={(text) => addDate ? setAddDate(text) : ''}
@@ -146,7 +167,7 @@ const EventForm = ({ route, navigation }) => {
                     {/* TEXT FIELDS */}
                     <View style={{ flex: 1, flexDirection: "row", alignItems: "flex-start", margin: 4 }}>
                         <View style={{ flex: 1, flexDirection: "column", }} >
-                            <Text style={{ color: MAIN_COLORS.header_tab_forecolor, marginLeft: 6 }}>Aamupäivä:</Text>
+                            <Text style={{ color: MAIN_COLORS.header_tab_forecolor, marginLeft: 4 }}>Aamupäivä:</Text>
                             <TextInput
                                 style={[styles.input, { textAlign: "center" }]}
                                 value={tempMorning}
@@ -155,7 +176,7 @@ const EventForm = ({ route, navigation }) => {
                             />
                         </View>
                         <View style={{ flex: 1, flexDirection: "column" }} >
-                            <Text style={{ color: MAIN_COLORS.header_tab_forecolor, marginLeft: 6 }}>Keskipäivä:</Text>
+                            <Text style={{ color: MAIN_COLORS.header_tab_forecolor, marginLeft: 4 }}>Keskipäivä:</Text>
                             <TextInput
                                 style={[styles.input, { textAlign: "center" }]}
                                 value={tempMiddle}
@@ -164,7 +185,7 @@ const EventForm = ({ route, navigation }) => {
                             />
                         </View>
                         <View style={{ flex: 1, flexDirection: "column" }} >
-                            <Text style={{ color: MAIN_COLORS.header_tab_forecolor, marginLeft: 6 }}>Iltapäivä:</Text>
+                            <Text style={{ color: MAIN_COLORS.header_tab_forecolor, marginLeft: 4 }}>Iltapäivä:</Text>
                             <TextInput
                                 style={[styles.input, { textAlign: "center" }]}
                                 value={tempEvening}
@@ -174,9 +195,9 @@ const EventForm = ({ route, navigation }) => {
                         </View>
                     </View>
                     {/* SELECT FIELDS */}
-                    <View style={{ flex: 1, paddingTop: 24, flexDirection: "row", margin: 4 }}>
+                    <View style={{ flex: 1, paddingTop: 10, flexDirection: "row", margin: 4 }}>
                         <View style={{ flex: 1, flexDirection: "column", }}>
-                            <Text style={{ color: MAIN_COLORS.header_tab_forecolor, marginLeft: 2 }}>Aamupäivä:</Text>
+                            <Text style={{ color: MAIN_COLORS.header_tab_forecolor, marginLeft: 4 }}>Aamupäivä:</Text>
                             <SelectDropdown buttonStyle={{ width: "auto", marginHorizontal: 2, marginTop: 4, backgroundColor: MAIN_COLORS.header_tab_background, borderWidth: 1, borderColor: MAIN_COLORS.header_tab_forecolor, borderRadius: 4, height: 40 }}
                                 buttonTextStyle={{ color: MAIN_COLORS.row_item_forecolor, fontSize: 14 }}
                                 dropdownStyle={{ backgroundColor: MAIN_COLORS.row_item_background, padding: 2, marginRight: 2, borderRadius: 6, borderWidth: 2, borderColor: MAIN_COLORS.row_item_bordercolor }}
@@ -192,7 +213,7 @@ const EventForm = ({ route, navigation }) => {
                         </View>
 
                         <View style={{ flex: 1, flexDirection: "column", }}>
-                            <Text style={{ color: MAIN_COLORS.header_tab_forecolor, marginLeft: 2 }}>Keskipäivä:</Text>
+                            <Text style={{ color: MAIN_COLORS.header_tab_forecolor, marginLeft: 4 }}>Keskipäivä:</Text>
                             <SelectDropdown buttonStyle={{ width: "auto", marginHorizontal: 2, marginTop: 4, backgroundColor: MAIN_COLORS.header_tab_background, borderWidth: 1, borderColor: MAIN_COLORS.header_tab_forecolor, borderRadius: 4, height: 40 }}
                                 buttonTextStyle={{ color: MAIN_COLORS.row_item_forecolor, fontSize: 14, }}
                                 dropdownStyle={{ backgroundColor: MAIN_COLORS.row_item_background, padding: 2, marginRight: 2, borderRadius: 6, borderWidth: 2, borderColor: MAIN_COLORS.row_item_bordercolor }}
@@ -208,7 +229,7 @@ const EventForm = ({ route, navigation }) => {
                         </View>
 
                         <View style={{ flex: 1, flexDirection: "column", }}>
-                            <Text style={{ color: MAIN_COLORS.header_tab_forecolor, marginLeft: 2 }}>Iltapäivä:</Text>
+                            <Text style={{ color: MAIN_COLORS.header_tab_forecolor, marginLeft: 4 }}>Iltapäivä:</Text>
                             <SelectDropdown buttonStyle={{ width: "auto", marginHorizontal: 2, marginTop: 4, backgroundColor: MAIN_COLORS.header_tab_background, borderWidth: 1, borderColor: MAIN_COLORS.header_tab_forecolor, borderRadius: 4, height: 40 }}
                                 buttonTextStyle={{ color: MAIN_COLORS.row_item_forecolor, fontSize: 14 }}
                                 dropdownStyle={{ backgroundColor: MAIN_COLORS.row_item_background, padding: 2, marginRight: 2, borderRadius: 6, borderWidth: 2, borderColor: MAIN_COLORS.row_item_bordercolor }}
@@ -224,15 +245,36 @@ const EventForm = ({ route, navigation }) => {
                         </View>
                     </View>
 
-                    <View style={{ flex: 1, paddingTop: 4, flexDirection: "row", margin: 4 }}>
+                    <View style={{ paddingTop: 12, flexDirection: "row", margin: 4, justifyContent: "flex-end" }}>
                         <Pressable
-                            style={[styles.input, { flex: 3 }]}
+                            style={[styles.input, { flex: 1, backgroundColor: MAIN_COLORS.form_button_background }]}
+                            onPress={resetForm}
+                        >
+                            <Text style={{ color: MAIN_COLORS.row_item_forecolor, padding: 4, width: "100%", textAlign: "center" }}>Tyhjennä</Text>
+                        </Pressable>
+                        <Pressable
+                            style={[styles.input, { flex: 1, backgroundColor: MAIN_COLORS.form_button_background }]}
+                            onPress={cancelForm}
+                        >
+                            <Text style={{ color: MAIN_COLORS.row_item_forecolor, padding: 4, width: "100%", textAlign: "center" }}>Peruuta</Text>
+                        </Pressable>
+                        <Pressable
+                            style={[styles.input, { flex: 1, backgroundColor: MAIN_COLORS.form_button_background }]}
                             onPress={id > 0 ? updateEvent : addEvent}
                         >
-
                             <Text style={{ color: MAIN_COLORS.row_item_forecolor, padding: 4, width: "100%", textAlign: "center" }}>Tallenna</Text>
                         </Pressable>
+
                     </View>
+
+                    <Modal visible={showModal} animationType="slide" transparent={true}>
+                        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.6)' }}>
+                            <View style={{ backgroundColor: MAIN_COLORS.header_tab_background, padding: 20, borderRadius: 10 }}>
+                                <Text style={{ color: MAIN_COLORS.row_item_forecolor, padding: 4 }}>Päivän {addDate ? format(addDate, 'dd.MM.yyyy HH:ss') : Date.now()} tiedot tallennettu!</Text>
+                                <Pressable style={{ backgroundColor: MAIN_COLORS.row_item_background }} title="Sulje" onPress={() => setShowModal(false)} />
+                            </View>
+                        </View>
+                    </Modal>
 
                 </ScrollView>
             </View >
@@ -241,30 +283,30 @@ const EventForm = ({ route, navigation }) => {
 
     );
 
-    const pickerSelectStyles = StyleSheet.create({
-        inputIOS: {
-            fontSize: 16,
-            paddingVertical: 12,
-            paddingHorizontal: 10,
-            borderWidth: 1,
-            borderColor: 'gray',
-            borderRadius: 4,
-            color: '#FFF',
-            paddingRight: 30 // to ensure the text is never behind the icon
-        },
-        inputAndroid: {
-            fontSize: 16,
-            paddingHorizontal: 10,
-            paddingVertical: 8,
-            borderWidth: 0.5,
-            borderColor: MAIN_COLORS.row_item_bordercolor,
-            borderRadius: 8,
-            color: '#FFF',
-            minHeight: 40,
-            backgroundColor: MAIN_COLORS.row_item_background,
-            paddingRight: 30 // to ensure the text is never behind the icon
-        }
-    });
+    // const pickerSelectStyles = StyleSheet.create({
+    //     inputIOS: {
+    //         fontSize: 16,
+    //         paddingVertical: 12,
+    //         paddingHorizontal: 10,
+    //         borderWidth: 1,
+    //         borderColor: 'gray',
+    //         borderRadius: 4,
+    //         color: '#FFF',
+    //         paddingRight: 30 // to ensure the text is never behind the icon
+    //     },
+    //     inputAndroid: {
+    //         fontSize: 16,
+    //         paddingHorizontal: 10,
+    //         paddingVertical: 8,
+    //         borderWidth: 0.5,
+    //         borderColor: MAIN_COLORS.row_item_bordercolor,
+    //         borderRadius: 8,
+    //         color: '#FFF',
+    //         minHeight: 40,
+    //         backgroundColor: MAIN_COLORS.row_item_background,
+    //         paddingRight: 30 // to ensure the text is never behind the icon
+    //     }
+    // });
 
 }
 
