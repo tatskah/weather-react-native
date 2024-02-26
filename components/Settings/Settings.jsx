@@ -10,9 +10,9 @@ export default class extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            savingFields: {},
+            savingFields: [],
             settingsData: [],
-            isLoading: false,
+            isLoading: 2,
             screenContent: '',
             dynamicProperties: {},
             url: ''
@@ -54,11 +54,11 @@ export default class extends Component {
             this.setState({ settingsData: data });
 
             if (data) {
-
-                const newSavingField = {
-                    ...this.state.savingFields, data
+                this.log("SETTINGS DATA", data);
+                const newSettingsField = {
+                    ...this.state.settingsData, data
                 }
-                this.setState({ savingFields: newSavingField });
+                this.setState({ settingsData: newSettingsField });
             }
 
         } catch (error) {
@@ -68,10 +68,13 @@ export default class extends Component {
     }
 
     getFieldData(field) {
-        const data = this.state.savingFields.data;
+        const data = this.state.settingsData.data;
+        this.log("getFieldData", data)
+
         let ret = '';
         if (data) {
             data.forEach(item => {
+                this.log(item.name, field)
                 if (item.name === field) {
                     ret = item.value;
                 }
@@ -81,23 +84,32 @@ export default class extends Component {
     }
 
     async updateFieldValue(field, newValue) {
-        const data = this.state.savingFields.data;
-        let ret = '';
-        if (data) {
-            const newData = await data.map(item => {
+        const oldData = this.state.settingsData.data;
+
+        if (oldData) {
+            const newData = await oldData.map(item => {
                 if (item.name === field) {
                     let n = item.name;
                     return { ...item, value: newValue }
                 };
                 return item;
             });
-            console.log("NEW ", newData);
-            this.setState({ savingFields: newData });
+            this.log(newData)
+            const newSettingsField = {
+                ...this.state.settingsData, newData
+            }
 
+            this.setState({ settingsData: newSettingsField });
         }
-
+        this.setState({ isLoading: this.state.isLoading * -1 })
     }
+
+    log(...msg) {
+        console.log(...msg);
+    }
+
     render() {
+        const { dynamicProperties } = this.state
         return (
             <View style={mainStyles.container}>
                 <View style={mainStyles.appHeader}>
@@ -120,6 +132,7 @@ export default class extends Component {
                                 </View>
                             ))}
 
+                            <View><Text>{this.state.isLoading}</Text></View>
 
                         </View>
                     </ScrollView>
