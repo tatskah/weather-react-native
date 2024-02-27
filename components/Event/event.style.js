@@ -54,20 +54,11 @@ const styles = StyleSheet.create({
         width: "100%",
 
     },
-    item_title: {
-        // flex: 1,
-        // flexDirection: "row",
-        // justifyContent: "space-between",
-        // color: MAIN_COLORS.header_tab_forecolor,
-        // backgroundColor: "#555",
-        // fontWeight: "bold",
-        // padding: 2,
-        // borderBottomWidth: 1,
-        // borderBottomColor: MAIN_COLORS.header_tab_forecolor,
-        // borderBottomRightRadius: 1,
-        // height: 24,
-        // width: "100%"
-    }
+
+    deleteIcon: {
+        width: 22,
+        height: 22,
+    },
 
 
 });

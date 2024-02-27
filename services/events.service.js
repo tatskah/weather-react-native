@@ -15,7 +15,11 @@ class EventsService {
     }
 
     async updateEvent(id, data) {
-        return await http.post("events/:id", data);
+        return await http.post(`events/${id}`, data);
+    }
+
+    async deleteEvent(id) {
+        return await http.delete(`events/${id}`);
     }
 }
 

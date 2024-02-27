@@ -8,6 +8,8 @@ import CalendarPicker from "react-native-calendar-picker";
 import SelectDropdown from 'react-native-select-dropdown'
 import { MAIN_COLORS } from "../../constants";
 import WeatherTypes from "../../utils/WeatherTypes";
+import ModalPopup from "../ModalPopup/ModalPopup";
+import nullToStr from '../../utils/DataHelper';
 
 const EventForm = ({ route, navigation }) => {
     const { id } = route.params;
@@ -45,6 +47,7 @@ const EventForm = ({ route, navigation }) => {
             const data = response.data;
             await setValues(data, 1);
         } catch (error) {
+            console.log(error);
             await setValues([], 0);
         }
     }
@@ -53,25 +56,16 @@ const EventForm = ({ route, navigation }) => {
         if (mode === 1) {
             setAddDate(data.add_date);
             setInfo(data.info);
-            setTempMorning(data.temp_morning.toString());
-            setTempMiddle(data.temp_middle.toString());
-            setTempEvening(data.temp_evening.toString());
+            setTempMorning(nullToStr(data.temp_morning).toString());
+            setTempMiddle(nullToStr(data.temp_middle).toString());
+            setTempEvening(nullToStr(data.temp_evening).toString());
             setWeatherTypeMorning(data.wtype_morning);
             setWeatherTypeMiddle(data.wtype_middle);
             setWeatherTypeEvening(data.wtype_evening);
         } else {
-            // setAddDate(Date.now());
-            // setInfo('');
-            // setTempMorning('');
-            // setTempMiddle('');
-            // setTempEvening('');
-            // setWeatherTypeMorning('0');
-            // setWeatherTypeMiddle('0');
-            // setWeatherTypeEvening('0');
             resetForm();
         }
         setIsLoading(false);
-
     };
 
     const handleTextChange = (inputText, dayTime) => {
@@ -107,7 +101,29 @@ const EventForm = ({ route, navigation }) => {
 
     };
     const updateEvent = () => {
-        console.log("update");
+        const data = {
+            add_date: addDate,
+            info: info,
+            temp_morning: tempMorning === "" ? null : tempMorning,
+            temp_middle: tempMiddle === "" ? null : tempMiddle,
+            temp_evening: tempEvening === "" ? null : tempEvening,
+            wtype_morning: weatherTypeMorning,
+            wtype_middle: weatherTypeMiddle,
+            wtype_evening: weatherTypeEvening,
+            daytime_id: 1,
+            weathertype_id: 1
+        }
+        const ret = EventsService.updateEvent(id, data);
+
+        setShowModal(true);
+
+        setTimeout(() => {
+            setShowModal(false);
+        }, 2000);
+
+        setTimeout(() => {
+            navigation.navigate("Events");
+        }, 2200);
     };
 
     const cancelForm = () => {
@@ -264,17 +280,23 @@ const EventForm = ({ route, navigation }) => {
                         >
                             <Text style={{ color: MAIN_COLORS.row_item_forecolor, padding: 4, width: "100%", textAlign: "center" }}>Tallenna</Text>
                         </Pressable>
-
                     </View>
 
-                    <Modal visible={showModal} animationType="slide" transparent={true}>
+                    <ModalPopup showModal={showModal} onDismiss={() => setShowModal(false)} >
+                        <View style={{ backgroundColor: MAIN_COLORS.header_tab_background, padding: 20, borderRadius: 10, borderWidth: 1, borderColor: MAIN_COLORS.row_item_forecolor }}>
+                            <Text style={{ color: MAIN_COLORS.row_item_forecolor, padding: 4 }}>Päivän {addDate ? format(addDate, 'dd.MM.yyyy') : Date.now()} tiedot tallennettu!</Text>
+                        </View>
+                    </ModalPopup>
+
+
+                    {/* <Modal visible={showModal} animationType="slide" transparent={true}>
                         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.6)' }}>
                             <View style={{ backgroundColor: MAIN_COLORS.header_tab_background, padding: 20, borderRadius: 10 }}>
                                 <Text style={{ color: MAIN_COLORS.row_item_forecolor, padding: 4 }}>Päivän {addDate ? format(addDate, 'dd.MM.yyyy HH:ss') : Date.now()} tiedot tallennettu!</Text>
                                 <Pressable style={{ backgroundColor: MAIN_COLORS.row_item_background }} title="Sulje" onPress={() => setShowModal(false)} />
                             </View>
                         </View>
-                    </Modal>
+                    </Modal> */}
 
                 </ScrollView>
             </View >

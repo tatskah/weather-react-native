@@ -22,9 +22,13 @@ const Events = ({ navigation }) => {
         setData(response.data);
     }
 
+    const handleItemDelete = () => {
+        getData();
+    }
+
     const renderItem = ({ item }) => (
         <View>
-            <Event navigation={navigation} key={`item-${item.id}`} item={item} />
+            <Event handleItemDelete={handleItemDelete} navigation={navigation} key={`item-${item.id}`} item={item} />
         </View>
     );
 
