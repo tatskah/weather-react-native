@@ -72,7 +72,7 @@ const Index = () => {
               tabBarLabel: 'Tapahtumat',
               tabBarLabelStyle: { color: styles.tab_navi_bottom.activeColor },
               tabBarIcon: () => (
-                <Image source={icons.calendar} style={styles.toolbar_bottom_icon} />
+                <Image source={icons.events} style={styles.toolbar_bottom_icon} />
               )
             }}
           />
@@ -96,7 +96,7 @@ const Index = () => {
               tabBarLabelStyle: { color: styles.tab_navi_bottom.activeColor },
               tabBarVisible: true,
               tabBarIcon: () => (
-                <Image source={icons.settings} style={styles.toolbar_bottom_icon} />
+                <Image source={icons.settings_orange} style={styles.toolbar_bottom_icon} />
               )
             }}
           />

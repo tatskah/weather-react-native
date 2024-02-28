@@ -46,5 +46,29 @@ const styles = StyleSheet.create({
         backgroundColor: MAIN_COLORS.header_tab_forecolor,
         color: MAIN_COLORS.row_item_forecolor
     },
+    dropdownRowImage: {
+        flex: 1,
+        marginLeft: 2,
+        marginTop: 8,
+        flex: 1,
+        width: 14,
+        height: 14,
+        resizeMode: 'center'
+    },
+    dropdown3RowChildStyle: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        paddingHorizontal: 18,
+    },
+    dropdown3RowTxt: {
+        color: '#F1F1F1',
+        textAlign: 'center',
+        fontWeight: 'normal',
+        fontSize: 12,
+        marginHorizontal: 12,
+    },
+
 })
 export default styles;

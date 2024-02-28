@@ -5,8 +5,7 @@ import styles from './weathercard.style';
 import { WeatherType, WeatherText } from '../../utils/WeatherConditions';
 import { MAIN_COLORS } from "../../constants";
 
-const WeatherCard = ({ item, navigation }) =>
-{
+const WeatherCard = ({ item, navigation }) => {
     const [data, setData] = useState(item);
 
     return (

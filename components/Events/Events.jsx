@@ -22,13 +22,13 @@ const Events = ({ navigation }) => {
         setData(response.data);
     }
 
-    const handleItemDelete = () => {
-        getData();
+    const reloadData = async () => {
+        await getData();
     }
 
     const renderItem = ({ item }) => (
         <View>
-            <Event handleItemDelete={handleItemDelete} navigation={navigation} key={`item-${item.id}`} item={item} />
+            <Event reloadData={() => reloadData()} navigation={navigation} key={`item-${item.id}`} item={item} />
         </View>
     );
 
@@ -39,7 +39,7 @@ const Events = ({ navigation }) => {
                     <Text style={[mainStyles.appHeaderText, { flex: 2 }]}>Tapahtumat - {data.length} kpl.</Text>
                     <View style={{ flex: 1, alignItems: "flex-end", marginTop: 6, marginRight: 6 }}>
                         <Pressable onPress={() => navigation.navigate('EventForm', { id: 0 })}>
-                            <Image source={icons.new2} style={styles.new_icon} />
+                            <Image source={icons.new_orange} style={styles.new_icon} />
                         </Pressable>
                     </View>
                 </View>

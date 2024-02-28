@@ -21,24 +21,28 @@ const styles = StyleSheet.create({
         padding: 2,
     },
     date_add: {
-        flex: 2,
+        flex: 4,
         fontWeight: "bold",
         color: MAIN_COLORS.header_tab_forecolor,
     },
     temp_morning: {
         flex: 1,
+        // marginTop: 2,
         color: MAIN_COLORS.header_tab_forecolor,
     },
     temp_middle: {
         flex: 1,
+        // marginTop: 2,
         color: MAIN_COLORS.header_tab_forecolor,
     },
     temp_evening: {
         flex: 1,
+        // marginTop: 2,
         color: MAIN_COLORS.header_tab_forecolor,
     },
     weather_row: {
-        flex: 1,
+        flex: 2,
+        flexDirection: "row",
         padding: 1,
         backgroundColor: MAIN_COLORS.row_item_background,
         color: MAIN_COLORS.row_item_forecolor,

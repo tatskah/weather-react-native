@@ -13,7 +13,6 @@ export default class extends Component {
             savingFields: [],
             settingsData: [],
             isLoading: 2,
-            screenContent: '',
             dynamicProperties: {},
             url: '',
             showModal: false
@@ -46,7 +45,7 @@ export default class extends Component {
         // console.log('PREVPROPS:', prevProps);
         // console.log('PREVSTATE', prevState);
         if (prevProps.route.name !== this.props.route.name) {
-            this.setState({ screenContent: `Näytetään nyt ${this.props.route.name}` });
+
         }
     };
 
@@ -104,7 +103,7 @@ export default class extends Component {
     }
 
     cancelForm = () => {
-
+        this.props.navigation.navigate("Events");
     }
 
     resetForm = () => {

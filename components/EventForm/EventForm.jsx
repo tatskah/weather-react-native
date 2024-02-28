@@ -1,4 +1,4 @@
-import { Text, View, TextInput, SafeAreaView, ScrollView, Pressable, Modal } from "react-native";
+import { Text, View, TextInput, SafeAreaView, ScrollView, Pressable, Modal, Image } from "react-native";
 import { useEffect, useState } from "react";
 import mainStyles from '../../styles/';
 import styles from './eventform.style';
@@ -9,7 +9,7 @@ import SelectDropdown from 'react-native-select-dropdown'
 import { MAIN_COLORS } from "../../constants";
 import WeatherTypes from "../../utils/WeatherTypes";
 import ModalPopup from "../ModalPopup/ModalPopup";
-import nullToStr from '../../utils/DataHelper';
+import DataHelper from '../../utils/DataHelper';
 
 const EventForm = ({ route, navigation }) => {
     const { id } = route.params;
@@ -17,11 +17,11 @@ const EventForm = ({ route, navigation }) => {
     const [addDate, setAddDate] = useState(Date.now());
     const [calDate, setCalDate] = useState();
     const [info, setInfo] = useState('');
-    const [weathertypes, setWeatherTypes] = useState(WeatherTypes.WeatherTypesArr);
+    const [weathertypes, setWeatherTypes] = useState(WeatherTypes.WeatherTypes);
 
-    const [tempMorning, setTempMorning] = useState('0');
-    const [tempMiddle, setTempMiddle] = useState('0');
-    const [tempEvening, setTempEvening] = useState('0');
+    const [tempMorning, setTempMorning] = useState('');
+    const [tempMiddle, setTempMiddle] = useState('');
+    const [tempEvening, setTempEvening] = useState('');
 
     const [weatherTypeMorning, setWeatherTypeMorning] = useState(0);
     const [weatherTypeMiddle, setWeatherTypeMiddle] = useState(0);
@@ -52,13 +52,15 @@ const EventForm = ({ route, navigation }) => {
         }
     }
 
+
+
     const setValues = async (data, mode) => {
-        if (mode === 1) {
+        if (mode === 1 && id > 0) {
             setAddDate(data.add_date);
             setInfo(data.info);
-            setTempMorning(nullToStr(data.temp_morning).toString());
-            setTempMiddle(nullToStr(data.temp_middle).toString());
-            setTempEvening(nullToStr(data.temp_evening).toString());
+            setTempMorning(DataHelper.NullToStr(data.temp_morning).toString());
+            setTempMiddle(DataHelper.NullToStr(data.temp_middle).toString());
+            setTempEvening(DataHelper.NullToStr(data.temp_evening).toString());
             setWeatherTypeMorning(data.wtype_morning);
             setWeatherTypeMiddle(data.wtype_middle);
             setWeatherTypeEvening(data.wtype_evening);
@@ -145,7 +147,7 @@ const EventForm = ({ route, navigation }) => {
 
         <View style={mainStyles.container}>
             <View style={mainStyles.appHeader}>
-                <Text style={mainStyles.appHeaderText}>Lisää tapahtuma:  {addDate ? format(addDate, 'dd.MM.yyyy') : ''}</Text>
+                <Text style={mainStyles.appHeaderText}>{id > 0 ? 'Muokkaa:' : 'Lisää tapahtuma:'}  {addDate ? format(addDate, 'dd.MM.yyyy') : ''}</Text>
             </View>
             <View style={styles.content}>
                 <ScrollView>
@@ -183,7 +185,9 @@ const EventForm = ({ route, navigation }) => {
                     {/* TEXT FIELDS */}
                     <View style={{ flex: 1, flexDirection: "row", alignItems: "flex-start", margin: 4 }}>
                         <View style={{ flex: 1, flexDirection: "column", }} >
-                            <Text style={{ color: MAIN_COLORS.header_tab_forecolor, marginLeft: 4 }}>Aamupäivä:</Text>
+                            <Text style={{ color: MAIN_COLORS.header_tab_forecolor, marginLeft: 4 }}>
+                                Aamupäivä: <Image source={WeatherTypes.WeatherTypes[DataHelper.NullToImageIndex(weatherTypeMorning)].image} style={{ width: 18, height: 18 }} />
+                            </Text>
                             <TextInput
                                 style={[styles.input, { textAlign: "center" }]}
                                 value={tempMorning}
@@ -192,7 +196,9 @@ const EventForm = ({ route, navigation }) => {
                             />
                         </View>
                         <View style={{ flex: 1, flexDirection: "column" }} >
-                            <Text style={{ color: MAIN_COLORS.header_tab_forecolor, marginLeft: 4 }}>Keskipäivä:</Text>
+                            <Text style={{ color: MAIN_COLORS.header_tab_forecolor, marginLeft: 4 }}>
+                                Keskipäivä: <Image source={WeatherTypes.WeatherTypes[DataHelper.NullToImageIndex(weatherTypeMiddle)].image} style={{ width: 18, height: 18 }} />
+                            </Text>
                             <TextInput
                                 style={[styles.input, { textAlign: "center" }]}
                                 value={tempMiddle}
@@ -201,7 +207,9 @@ const EventForm = ({ route, navigation }) => {
                             />
                         </View>
                         <View style={{ flex: 1, flexDirection: "column" }} >
-                            <Text style={{ color: MAIN_COLORS.header_tab_forecolor, marginLeft: 4 }}>Iltapäivä:</Text>
+                            <Text style={{ color: MAIN_COLORS.header_tab_forecolor, marginLeft: 4 }}>
+                                Iltapäivä: <Image source={WeatherTypes.WeatherTypes[DataHelper.NullToImageIndex(weatherTypeEvening)].image} style={{ width: 18, height: 18 }} />
+                            </Text>
                             <TextInput
                                 style={[styles.input, { textAlign: "center" }]}
                                 value={tempEvening}
@@ -215,16 +223,17 @@ const EventForm = ({ route, navigation }) => {
                         <View style={{ flex: 1, flexDirection: "column", }}>
                             <Text style={{ color: MAIN_COLORS.header_tab_forecolor, marginLeft: 4 }}>Aamupäivä:</Text>
                             <SelectDropdown buttonStyle={{ width: "auto", marginHorizontal: 2, marginTop: 4, backgroundColor: MAIN_COLORS.header_tab_background, borderWidth: 1, borderColor: MAIN_COLORS.header_tab_forecolor, borderRadius: 4, height: 40 }}
+                                dropdownIconPosition={'left'}
                                 buttonTextStyle={{ color: MAIN_COLORS.row_item_forecolor, fontSize: 14 }}
                                 dropdownStyle={{ backgroundColor: MAIN_COLORS.row_item_background, padding: 2, marginRight: 2, borderRadius: 6, borderWidth: 2, borderColor: MAIN_COLORS.row_item_bordercolor }}
-                                rowTextStyle={{ color: MAIN_COLORS.row_item_forecolor, fontSize: 14, padding: 6 }}
+                                rowTextStyle={{ color: MAIN_COLORS.row_item_forecolor, fontSize: 14, padding: 6, paddingTop: 12, height: 40 }}
                                 selectedRowStyle={{ backgroundColor: MAIN_COLORS.header_tab_background }}
                                 data={weathertypes}
                                 defaultValueByIndex={weatherTypeMorning}
                                 defaultButtonText={"Valitse sää"}
                                 onSelect={(selectedItem, index) => { setWeatherTypeMorning(index) }}
-                                buttonTextAfterSelection={(selectedItem, index) => { return selectedItem }}
-                                rowTextForSelection={(item, index) => { return item }}
+                                buttonTextAfterSelection={(selectedItem, index) => { return selectedItem.label }}
+                                rowTextForSelection={(item, index) => { return item.label }}
                             />
                         </View>
 
@@ -233,14 +242,14 @@ const EventForm = ({ route, navigation }) => {
                             <SelectDropdown buttonStyle={{ width: "auto", marginHorizontal: 2, marginTop: 4, backgroundColor: MAIN_COLORS.header_tab_background, borderWidth: 1, borderColor: MAIN_COLORS.header_tab_forecolor, borderRadius: 4, height: 40 }}
                                 buttonTextStyle={{ color: MAIN_COLORS.row_item_forecolor, fontSize: 14, }}
                                 dropdownStyle={{ backgroundColor: MAIN_COLORS.row_item_background, padding: 2, marginRight: 2, borderRadius: 6, borderWidth: 2, borderColor: MAIN_COLORS.row_item_bordercolor }}
-                                rowTextStyle={{ color: MAIN_COLORS.row_item_forecolor, fontSize: 14, padding: 6 }}
+                                rowTextStyle={{ color: MAIN_COLORS.row_item_forecolor, fontSize: 14, padding: 6, paddingTop: 12, height: 40 }}
                                 selectedRowStyle={{ backgroundColor: MAIN_COLORS.header_tab_background }}
                                 data={weathertypes}
                                 defaultValueByIndex={weatherTypeMiddle}
                                 defaultButtonText={"Valitse sää"}
                                 onSelect={(selectedItem, index) => { setWeatherTypeMiddle(index) }}
-                                buttonTextAfterSelection={(selectedItem, index) => { return selectedItem }}
-                                rowTextForSelection={(item, index) => { return item }}
+                                buttonTextAfterSelection={(selectedItem, index) => { return selectedItem.label }}
+                                rowTextForSelection={(item, index) => { return item.label }}
                             />
                         </View>
 
@@ -249,15 +258,24 @@ const EventForm = ({ route, navigation }) => {
                             <SelectDropdown buttonStyle={{ width: "auto", marginHorizontal: 2, marginTop: 4, backgroundColor: MAIN_COLORS.header_tab_background, borderWidth: 1, borderColor: MAIN_COLORS.header_tab_forecolor, borderRadius: 4, height: 40 }}
                                 buttonTextStyle={{ color: MAIN_COLORS.row_item_forecolor, fontSize: 14 }}
                                 dropdownStyle={{ backgroundColor: MAIN_COLORS.row_item_background, padding: 2, marginRight: 2, borderRadius: 6, borderWidth: 2, borderColor: MAIN_COLORS.row_item_bordercolor }}
-                                rowTextStyle={{ color: MAIN_COLORS.row_item_forecolor, fontSize: 14, padding: 6 }}
+                                rowTextStyle={{ color: MAIN_COLORS.row_item_forecolor, fontSize: 14, padding: 6, paddingTop: 12, height: 40 }}
                                 selectedRowStyle={{ backgroundColor: MAIN_COLORS.header_tab_background }}
                                 data={weathertypes}
                                 defaultValueByIndex={weatherTypeEvening}
                                 defaultButtonText={"Valitse sää"}
                                 onSelect={(selectedItem, index) => { setWeatherTypeEvening(index) }}
-                                buttonTextAfterSelection={(selectedItem, index) => { return selectedItem }}
-                                rowTextForSelection={(item, index) => { return item }}
+                                buttonTextAfterSelection={(selectedItem, index) => { return selectedItem.label }}
+                                rowTextForSelection={(item, index) => { return item.label }}
+                            // renderCustomizedRowChild={(item, index) => {
+                            //     return (
+                            //         <View style={{ flex: 1, flexDirection: "row", alignContent: "space-around" }}>
+                            //             <Image source={item.image} style={styles.dropdownRowImage} />
+                            //             <Text style={{ alignSelf: "flex-start", flex: 2, color: MAIN_COLORS.row_item_forecolor, fontSize: 14, padding: 6 }}>{item.label}</Text>
+                            //         </View>
+                            //     );
+                            // }}
                             />
+
                         </View>
                     </View>
 
@@ -288,48 +306,9 @@ const EventForm = ({ route, navigation }) => {
                         </View>
                     </ModalPopup>
 
-
-                    {/* <Modal visible={showModal} animationType="slide" transparent={true}>
-                        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.6)' }}>
-                            <View style={{ backgroundColor: MAIN_COLORS.header_tab_background, padding: 20, borderRadius: 10 }}>
-                                <Text style={{ color: MAIN_COLORS.row_item_forecolor, padding: 4 }}>Päivän {addDate ? format(addDate, 'dd.MM.yyyy HH:ss') : Date.now()} tiedot tallennettu!</Text>
-                                <Pressable style={{ backgroundColor: MAIN_COLORS.row_item_background }} title="Sulje" onPress={() => setShowModal(false)} />
-                            </View>
-                        </View>
-                    </Modal> */}
-
                 </ScrollView>
             </View >
         </View >
-
-
     );
-
-    // const pickerSelectStyles = StyleSheet.create({
-    //     inputIOS: {
-    //         fontSize: 16,
-    //         paddingVertical: 12,
-    //         paddingHorizontal: 10,
-    //         borderWidth: 1,
-    //         borderColor: 'gray',
-    //         borderRadius: 4,
-    //         color: '#FFF',
-    //         paddingRight: 30 // to ensure the text is never behind the icon
-    //     },
-    //     inputAndroid: {
-    //         fontSize: 16,
-    //         paddingHorizontal: 10,
-    //         paddingVertical: 8,
-    //         borderWidth: 0.5,
-    //         borderColor: MAIN_COLORS.row_item_bordercolor,
-    //         borderRadius: 8,
-    //         color: '#FFF',
-    //         minHeight: 40,
-    //         backgroundColor: MAIN_COLORS.row_item_background,
-    //         paddingRight: 30 // to ensure the text is never behind the icon
-    //     }
-    // });
-
 }
-
 export default EventForm;

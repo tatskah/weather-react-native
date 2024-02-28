@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
         color: MAIN_COLORS.row_item_forecolor
     },
     input_multiline: {
+        textAlignVertical: "top",
         height: 150,
         borderColor: MAIN_COLORS.header_tab_forecolor,
         borderWidth: 1,
