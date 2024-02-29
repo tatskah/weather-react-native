@@ -10,7 +10,7 @@ const NullToStr = (str) => {
 const NullToImageIndex = (imgIndex) => {
     try {
         if (imgIndex === null ||
-            imgIndex === 'undefined' ||
+            imgIndex === undefined ||
             imgIndex === '' ||
             imgIndex < 0 ||
             imgIndex > 8) {

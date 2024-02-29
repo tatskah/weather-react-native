@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native"
-import { MAIN_COLORS } from "../../constants";
+import { MAIN_COLORS, SIZES } from "../../constants";
 
 const styles = StyleSheet.create({
     container: {
@@ -69,6 +69,12 @@ const styles = StyleSheet.create({
         fontSize: 12,
         marginHorizontal: 12,
     },
+    camera_icon: {
+        width: SIZES.search_icon,
+        height: SIZES.search_icon,
+        marginRight: 8,
+        marginLeft: 2
 
+    },
 })
 export default styles;

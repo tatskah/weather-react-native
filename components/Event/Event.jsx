@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Text, View, Pressable, Image } from "react-native";
 import styles from "./event.style";
 import { format } from 'date-fns';
-import { icons } from '../../constants';
+import { MAIN_COLORS, icons } from '../../constants';
 import EventsService from "../../services/events.service";
 import WeatherTypes from "../../utils/WeatherTypes";
 import DataHelper from '../../utils/DataHelper';
@@ -62,9 +62,13 @@ const Event = ({ item, navigation, reloadData }) => {
                     <Text style={styles.weather_row_info}>{item.info}</Text>
                 </View>
                 <View>
-                    <ConfirmForm showDialog={showConfirmForm} handleButtonPressed={handleButtonPressed} title={"Tapahtuman poisto"} description={`Haluatko varmasti poistaa tapahtuman päivältä ${format(item.add_date, ' dd.MM.yyyy')} ?`} onCancel={() => setShowConfirmForm(false)}>
-                        <View>sdsdsd</View>
-                    </ConfirmForm>
+                    <ConfirmForm
+                        showDialog={showConfirmForm}
+                        handleButtonPressed={handleButtonPressed}
+                        title={"Tapahtuman poisto"}
+                        description={`Haluatko varmasti poistaa tapahtuman päivältä ${format(item.add_date, ' dd.MM.yyyy')} ?`}
+                        onCancel={() => setShowConfirmForm(false)}
+                    />
                 </View>
             </View>
         </Pressable>

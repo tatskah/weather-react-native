@@ -5,6 +5,12 @@
       "bundler": "metro"
     },
     "plugins": [
+      ["expo-media-library",
+      {
+        "photosPermission":"ALLOW ${PRODUCT_NAME} to acces your photos.",
+        "savePhotosPermission":"ALLOW ${PRODUCT_NAME} to save photos.",
+        "isAccessMediaLocationEnabled":"true"
+      }],
       "expo-router"
     ],
     "version": "1.0.0",

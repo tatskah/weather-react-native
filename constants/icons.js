@@ -9,6 +9,7 @@ import new_orange from '../assets/icons/new-orange.png';
 import settings from '../assets/icons/settings.png';
 import settings_orange from '../assets/icons/settings-orange.png';
 import camera from '../assets/icons/camera.png';
+import camera_thick from '../assets/icons/camera-thick.png';
 import events from '../assets/icons/events.png';
 import cloudy_sun from '../assets/icons/cloudy-sun.png';
 
@@ -25,5 +26,6 @@ export default {
     settings_orange,
     camera,
     events,
-    cloudy_sun
+    cloudy_sun,
+    camera_thick
 }
