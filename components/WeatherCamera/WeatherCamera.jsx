@@ -6,13 +6,13 @@ import * as MediaLibrary from "expo-media-library"
 import styles from "./weathercamera.style";
 import { MAIN_COLORS } from "../../constants";
 import { ScrollView } from "react-native-web";
+import { PhotoStatus } from "../../utils/WeatherEnums";
 
-const WeatherCamera = ({ onCancel, handlePhotoUri }) => {
+const WeatherCamera = ({ onCancel, handleEventPhotos }) => {
     let cameraRef = useRef();
     const [hasCameraPermission, setHasCameraPermission] = useState();
     const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
     const [photo, setPhoto] = useState();
-    const [cameraVisible, setCameraVisible] = useState(true);
 
     useEffect(() => {
         (async () => {
@@ -37,7 +37,6 @@ const WeatherCamera = ({ onCancel, handlePhotoUri }) => {
         };
         let newPhoto = await cameraRef.current.takePictureAsync(options);
         setPhoto(newPhoto);
-        // setCameraVisible(false);
     }
 
     if (photo) {
@@ -55,7 +54,7 @@ const WeatherCamera = ({ onCancel, handlePhotoUri }) => {
         let savePhoto = () => {
             try {
                 MediaLibrary.saveToLibraryAsync(photo.uri).then(() => {
-                    handlePhotoUri(photo.uri);
+                    handleEventPhotos(photo.uri, PhotoStatus.ADDED);
                     setPhoto(undefined);
                 })
             } catch (error) {

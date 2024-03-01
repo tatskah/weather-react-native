@@ -3,7 +3,7 @@ import { Stack, useNavigation, useRouter } from "expo-router";
 
 import { icons } from '../constants';
 import styles from '../styles';
-
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Events, EventForm, HomePage, Settings } from '../components';
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -33,12 +33,10 @@ const Index = () => {
   // }
 
   return (
-    <View style={styles.container}>
+    <GestureHandlerRootView style={styles.container}>
       <Stack.Screen options={{
         headerTitle: 'Sääohjelma',
-
       }} />
-
       <NavigationContainer independent={true}>
         <Tab.Navigator
           initialRouteName="Home"
@@ -100,10 +98,9 @@ const Index = () => {
               )
             }}
           />
-
         </Tab.Navigator>
       </NavigationContainer>
-    </View>
+    </GestureHandlerRootView>
   );
 }
 

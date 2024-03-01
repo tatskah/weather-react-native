@@ -16,7 +16,6 @@ export default class extends Component {
             dynamicProperties: {},
             url: '',
             showModal: false
-
         }
     };
 
@@ -25,7 +24,6 @@ export default class extends Component {
         if (data) {
             data.forEach(item => {
                 if (item.name === field) {
-                    console.log(item.value);
                     ret = item.value;
                 }
             });
@@ -90,7 +88,6 @@ export default class extends Component {
     }
 
     saveData = () => {
-
         this.setState({ showModal: true });
 
         setTimeout(() => {

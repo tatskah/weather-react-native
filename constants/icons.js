@@ -12,6 +12,7 @@ import camera from '../assets/icons/camera.png';
 import camera_thick from '../assets/icons/camera-thick.png';
 import events from '../assets/icons/events.png';
 import cloudy_sun from '../assets/icons/cloudy-sun.png';
+import photo from '../assets/icons/photo.png';
 
 export default {
     home,
@@ -27,5 +28,6 @@ export default {
     camera,
     events,
     cloudy_sun,
-    camera_thick
+    camera_thick,
+    photo
 }

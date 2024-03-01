@@ -59,6 +59,12 @@ const styles = StyleSheet.create({
 
     },
 
+    photoIcon: {
+        flex: 1,
+        width: 18,
+        height: 18,
+    },
+
     deleteIcon: {
         width: 22,
         height: 22,

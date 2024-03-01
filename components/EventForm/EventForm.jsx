@@ -1,5 +1,5 @@
-import { Text, View, TextInput, SafeAreaView, ScrollView, Pressable, Modal, Image } from "react-native";
-import { useEffect, useState } from "react";
+import { Text, View, TextInput, ScrollView, Pressable, Modal, Image } from "react-native";
+import { useEffect, useState, useRef } from "react";
 import mainStyles from '../../styles/';
 import styles from './eventform.style';
 import { icons } from '../../constants';
@@ -9,9 +9,11 @@ import CalendarPicker from "react-native-calendar-picker";
 import SelectDropdown from 'react-native-select-dropdown'
 import { MAIN_COLORS } from "../../constants";
 import WeatherTypes from "../../utils/WeatherTypes";
+import { PhotoStatus } from "../../utils/WeatherEnums";
 import ModalPopup from "../ModalPopup/ModalPopup";
 import DataHelper from '../../utils/DataHelper';
 import WeatherCamera from "../WeatherCamera/WeatherCamera";
+import PhotoCarousel from "../PhotoCarousel/PhotoCarousel";
 
 const EventForm = ({ route, navigation }) => {
     const { id } = route.params;
@@ -29,32 +31,46 @@ const EventForm = ({ route, navigation }) => {
     const [weatherTypeMiddle, setWeatherTypeMiddle] = useState(0);
     const [weatherTypeEvening, setWeatherTypeEvening] = useState(0);
 
+    const [eventPhotos, setEventPhotos] = useState([]);
     const [photoUri, setPhotoUri] = useState('');
 
     const [showModal, setShowModal] = useState(false);
-    const [visibleTime, setVisibleTime] = useState(0);
     const [showCamera, setShowCamera] = useState(false);
 
-    const [isLoading, setIsLoading] = useState('');
+    const scrollViewRef = useRef();
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
-            getData();
+            if (id > 0) {
+                getData();
+            } else {
+                resetForm();
+            }
+            scrollTop();
         });
         return unsubscribe;
     })
 
+    const scrollTop = () => {
+        scrollViewRef.current.scrollTo({ y: 0, animated: true });
+    }
+
     const getData = async () => {
-        setIsLoading(true);
         try {
+
             const response = await EventsService.getEventById(id);
             const data = response.data;
-            console.log(data);
+
             await setValues(data, 1);
         } catch (error) {
             console.log(error);
             await setValues([], 0);
         }
+    }
+
+    const viewCamera = () => {
+        setShowCamera(true);
+        scrollTop();
     }
 
     const setValues = async (data, mode) => {
@@ -68,10 +84,10 @@ const EventForm = ({ route, navigation }) => {
             setWeatherTypeMiddle(data.wtype_middle);
             setWeatherTypeEvening(data.wtype_evening);
             setPhotoUri(DataHelper.NullToStr(data.photoUri).toString())
+            setEventPhotos(data.EventsPhotos.length > 0 ? data.EventsPhotos : []);
         } else {
             resetForm();
         }
-        setIsLoading(false);
     };
 
     const handleTextChange = (inputText, dayTime) => {
@@ -119,7 +135,8 @@ const EventForm = ({ route, navigation }) => {
             wtype_evening: weatherTypeEvening,
             photoUri: photoUri,
             daytime_id: 1,
-            weathertype_id: 1
+            weathertype_id: 1,
+            EventsPhotos: eventPhotos
         }
         const ret = EventsService.updateEvent(id, data);
 
@@ -134,8 +151,17 @@ const EventForm = ({ route, navigation }) => {
         }, 2200);
     };
 
-    const handlePhotoUri = (uri) => {
+    const handleEventPhotos = (uri, status) => {
+        const photo = {
+            event_id: id,
+            uri: uri,
+            status: status
+        };
+        let events_photos = eventPhotos;
+        events_photos.push(photo);
+        setEventPhotos(events_photos);
         setPhotoUri(uri);
+
     }
 
     const cancelForm = () => {
@@ -161,15 +187,15 @@ const EventForm = ({ route, navigation }) => {
         <View style={mainStyles.container}>
             <View style={mainStyles.appHeader}>
                 <Text style={mainStyles.appHeaderText}>{id > 0 ? 'Muokkaa:' : 'Lisää tapahtuma:'}  {addDate ? format(addDate, 'dd.MM.yyyy') : ''}</Text>
-                <Pressable onPress={setShowCamera}>
+                <Pressable onPress={viewCamera}>
                     <Image style={styles.camera_icon} source={icons.camera_thick} />
                 </Pressable>
             </View>
             <View style={styles.content}>
-                <ScrollView>
+                <ScrollView ref={scrollViewRef}>
                     {showCamera ?
                         <View style={{ alignSelf: "center", width: 380, height: 300 }}>
-                            <WeatherCamera handlePhotoUri={handlePhotoUri} onCancel={() => setShowCamera(false)} />
+                            <WeatherCamera handleEventPhotos={handleEventPhotos} onCancel={() => setShowCamera(false)} />
                         </View>
                         : undefined}
 
@@ -301,10 +327,15 @@ const EventForm = ({ route, navigation }) => {
                         </View>
                     </View>
 
-                    {photoUri ?
-                        <View style={{ borderRadius: 4, borderWidth: 1, borderColor: MAIN_COLORS.header_tab_forecolor, flex: 1, alignSelf: "center", width: 394, height: 300 }}>
-                            <Image style={{ borderRadius: 4, width: 391, height: 297 }} source={{ uri: photoUri }} />
+                    {eventPhotos.length > 0 ?
+                        <View>
+                            <PhotoCarousel eventPhotos={eventPhotos} />
                         </View>
+
+
+                        // <View style={{ borderRadius: 4, borderWidth: 1, borderColor: MAIN_COLORS.header_tab_forecolor, flex: 1, alignSelf: "center", width: 394, height: 300 }}>
+                        //     <Image style={{ borderRadius: 4, width: 391, height: 297 }} source={{ uri: photoUri }} />
+                        // </View>
                         :
                         undefined
                     }

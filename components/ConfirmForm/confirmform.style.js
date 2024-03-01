@@ -9,13 +9,13 @@ const styles = StyleSheet.create({
     },
     buttonsStyle: {
         backgroundColor: MAIN_COLORS.header_tab_background,
-        borderRadius: 8,
+        borderRadius: 10,
         color: MAIN_COLORS.row_item_bordercolor
     },
     dialogStyle: {
-        height: 180,
+        height: 240,
         backgroundColor: MAIN_COLORS.header_tab_background,
-        borderRadius: 8,
+        borderRadius: 10,
         borderWidth: 1,
         borderColor: MAIN_COLORS.header_tab_forecolor
     },
