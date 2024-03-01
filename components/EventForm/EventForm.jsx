@@ -51,6 +51,13 @@ const EventForm = ({ route, navigation }) => {
         return unsubscribe;
     })
 
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('blur', () => {
+            resetForm();
+        });
+        return unsubscribe;
+    });
+
     const scrollTop = () => {
         scrollViewRef.current.scrollTo({ y: 0, animated: true });
     }
@@ -108,7 +115,8 @@ const EventForm = ({ route, navigation }) => {
             wtype_morning: parseInt(weatherTypeMorning),
             wtype_middel: parseInt(weatherTypeMiddle),
             wtype_evening: parseInt(weatherTypeEvening),
-            photoUri: photoUri
+            photoUri: photoUri,
+            EventsPhotos: eventPhotos
         }
         const saveData = await EventsService.addEvent(data);
 
@@ -178,6 +186,7 @@ const EventForm = ({ route, navigation }) => {
         setWeatherTypeMiddle('0');
         setWeatherTypeEvening('0');
         setPhotoUri('');
+        setEventPhotos([]);
     };
 
 

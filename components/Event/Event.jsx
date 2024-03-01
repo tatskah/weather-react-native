@@ -55,7 +55,7 @@ const Event = ({ item, navigation, reloadData }) => {
                     </View>
 
                     {item.EventsPhotos.length > 0 ?
-                        <View style={{ borderRadius: 2, borderColor: MAIN_COLORS.header_tab_forecolor, borderWidth: 1, width: 40, marginRight: 8, flexDirection: "row", justifyContent: "space-between" }}>
+                        <View style={{ borderRadius: 2, borderColor: MAIN_COLORS.header_tab_forecolor, borderWidth: 0, width: 40, marginRight: 8, flexDirection: "row", justifyContent: "space-between" }}>
                             <Text style={{ flex: 1, fontSize: 12, color: MAIN_COLORS.header_tab_forecolor, marginRight: 0 }}>{item.EventsPhotos.length}</Text>
                             <Image source={icons.photo} style={styles.photoIcon} />
                         </View>
