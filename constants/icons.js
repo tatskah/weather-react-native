@@ -13,6 +13,17 @@ import camera_thick from '../assets/icons/camera-thick.png';
 import events from '../assets/icons/events.png';
 import cloudy_sun from '../assets/icons/cloudy-sun.png';
 import photo from '../assets/icons/photo.png';
+import take_photo from '../assets/icons/take-photo.png';
+import take_photo32 from '../assets/icons/take-photo32.png';
+import take_photo48 from '../assets/icons/take-photo48.png';
+
+import back_arrow1_24 from '../assets/icons/back-arrow-1-24.png';
+import back_arrow1_32 from '../assets/icons/back-arrow-1-32.png';
+import back_arrow1_48 from '../assets/icons/back-arrow-1-48.png';
+
+import back_arrow2_24 from '../assets/icons/back-arrow-2-24.png';
+import back_arrow2_32 from '../assets/icons/back-arrow-2-32.png';
+import back_arrow2_48 from '../assets/icons/back-arrow-2-48.png';
 
 export default {
     home,
@@ -29,5 +40,14 @@ export default {
     events,
     cloudy_sun,
     camera_thick,
-    photo
+    photo,
+    take_photo,
+    take_photo32,
+    take_photo48,
+    back_arrow1_24,
+    back_arrow1_32,
+    back_arrow1_48,
+    back_arrow2_24,
+    back_arrow2_32,
+    back_arrow2_48,
 }

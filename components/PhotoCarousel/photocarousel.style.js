@@ -4,8 +4,10 @@ import { MAIN_COLORS } from "../../constants";
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        marginTop: 6,
         alignItems: "center",
         justifyContent: "center",
+
     },
     image: {
         borderWidth: 1,

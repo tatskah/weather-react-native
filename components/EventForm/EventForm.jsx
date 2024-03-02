@@ -1,4 +1,4 @@
-import { Text, View, TextInput, ScrollView, Pressable, Modal, Image } from "react-native";
+import { Text, View, TextInput, ScrollView, Pressable, Image, Dimensions } from "react-native";
 import { useEffect, useState, useRef } from "react";
 import mainStyles from '../../styles/';
 import styles from './eventform.style';
@@ -62,6 +62,11 @@ const EventForm = ({ route, navigation }) => {
         scrollViewRef.current.scrollTo({ y: 0, animated: true });
     }
 
+    const scrollBottom = () => {
+        const { height } = Dimensions.get('window');
+        scrollViewRef.current.scrollTo({ y: height, animated: true });
+    }
+
     const getData = async () => {
         try {
 
@@ -77,7 +82,7 @@ const EventForm = ({ route, navigation }) => {
 
     const viewCamera = () => {
         setShowCamera(true);
-        scrollTop();
+        scrollBottom();
     }
 
     const setValues = async (data, mode) => {
@@ -148,6 +153,8 @@ const EventForm = ({ route, navigation }) => {
         }
         const ret = EventsService.updateEvent(id, data);
 
+        setShowCamera(false);
+
         setShowModal(true);
 
         setTimeout(() => {
@@ -169,7 +176,7 @@ const EventForm = ({ route, navigation }) => {
         events_photos.push(photo);
         setEventPhotos(events_photos);
         setPhotoUri(uri);
-
+        scrollBottom();
     }
 
     const cancelForm = () => {
@@ -187,6 +194,7 @@ const EventForm = ({ route, navigation }) => {
         setWeatherTypeEvening('0');
         setPhotoUri('');
         setEventPhotos([]);
+        setShowCamera(false);
     };
 
 
@@ -202,12 +210,6 @@ const EventForm = ({ route, navigation }) => {
             </View>
             <View style={styles.content}>
                 <ScrollView ref={scrollViewRef}>
-                    {showCamera ?
-                        <View style={{ alignSelf: "center", width: 380, height: 300 }}>
-                            <WeatherCamera handleEventPhotos={handleEventPhotos} onCancel={() => setShowCamera(false)} />
-                        </View>
-                        : undefined}
-
                     <View style={{ alignContent: "center", backgroundColor: MAIN_COLORS.container_background }}>
                         <CalendarPicker
                             startFromMonday={true}
@@ -340,15 +342,22 @@ const EventForm = ({ route, navigation }) => {
                         <View>
                             <PhotoCarousel eventPhotos={eventPhotos} />
                         </View>
-
-
-                        // <View style={{ borderRadius: 4, borderWidth: 1, borderColor: MAIN_COLORS.header_tab_forecolor, flex: 1, alignSelf: "center", width: 394, height: 300 }}>
-                        //     <Image style={{ borderRadius: 4, width: 391, height: 297 }} source={{ uri: photoUri }} />
-                        // </View>
                         :
                         undefined
                     }
-
+                    {showCamera ?
+                        <View style={{
+                            marginLeft: 6,
+                            marginTop: 14, borderWidth: 1,
+                            borderRadius: 4,
+                            borderColor: MAIN_COLORS.header_tab_forecolor,
+                            // alignSelf: "center",
+                            width: 395,
+                            height: 395
+                        }}>
+                            <WeatherCamera handleEventPhotos={handleEventPhotos} onCancel={() => setShowCamera(false)} />
+                        </View>
+                        : undefined}
                     <View style={{ paddingTop: 12, flexDirection: "row", margin: 4, justifyContent: "flex-end" }}>
                         <Pressable
                             style={[styles.input, { flex: 1, backgroundColor: MAIN_COLORS.form_button_background }]}

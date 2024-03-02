@@ -1,4 +1,4 @@
-import { Text, View, Image, Platform } from "react-native";
+import { Text, View, Image, Platform, StatusBar } from "react-native";
 import { Stack, useNavigation, useRouter } from "expo-router";
 
 import { icons } from '../constants';
@@ -13,11 +13,15 @@ import { NavigationContainer } from "@react-navigation/native";
 import { WeatherEnums } from "../utils/WeatherEnums";
 // import SplashScreen from 'rn-splash-screen';
 import { useEffect } from "react";
+import { MAIN_COLORS } from "../constants";
 
 const Index = () => {
   const Tab = createBottomTabNavigator();
   const router = useRouter();
   const navigation = useNavigation();
+
+  // StatusBar.setBackgroundColor(MAIN_COLORS.header_tab_background);
+  // StatusBar.setBarStyle('light-content');
 
   // if (Platform.OS == 'android')
   // {
@@ -34,9 +38,17 @@ const Index = () => {
 
   return (
     <GestureHandlerRootView style={styles.container}>
+
       <Stack.Screen options={{
         headerTitle: 'Sääohjelma',
       }} />
+
+      <StatusBar
+        translucent
+        backgroundColor={MAIN_COLORS.header_tab_background}
+        barStyle="dark-content"
+      />
+
       <NavigationContainer independent={true}>
         <Tab.Navigator
           initialRouteName="Home"

@@ -1,9 +1,10 @@
 import { Component } from 'react';
 import CustomCarousel from 'carousel-with-pagination-rn';
-import { View, Dimensions, Image } from 'react-native';
+import { View, Dimensions, Image, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { PanGestureHandler } from 'react-native-gesture-handler';
 import styles from './photocarousel.style';
+import { MAIN_COLORS } from '../../constants';
 
 export default class PhotoCarousel extends Component {
     constructor(props) {
@@ -36,15 +37,18 @@ export default class PhotoCarousel extends Component {
 
             <CustomCarousel
                 data={this.state.eventPhotos}
-                renderItem={({ item }) => {
+                renderItem={({ item, index }) => {
                     return (
                         // <PanGestureHandler>
                         <View style={styles.container}>
-                            <Image
-                                source={{ uri: item.uri }}
-                                style={styles.image}
-                                resizeMode='cover'
-                            />
+                            <TouchableOpacity onPress={() => console.log(index, item.id, this.state.eventPhotos)}>
+                                <Image
+                                    key={item.id}
+                                    source={{ uri: item.uri }}
+                                    style={styles.image}
+                                    resizeMode='cover'
+                                />
+                            </TouchableOpacity>
                         </View>
                         // </PanGestureHandler>
                     );
