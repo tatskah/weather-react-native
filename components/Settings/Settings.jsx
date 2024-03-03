@@ -11,6 +11,7 @@ import SelectDropdown from 'react-native-select-dropdown'
 export default class extends Component {
     constructor(props) {
         super(props);
+
         this.state = {
             savingFields: [],
             settingsData: [],
@@ -21,32 +22,22 @@ export default class extends Component {
         }
     };
 
-    createSavingProperties() {
-        const data = this.state.settingsData;
-        if (data) {
-            data.forEach(item => {
-                if (item.name === field) {
-                    ret = item.value;
-                }
-            });
-        }
-    }
+    componentDidMount() {
+        this.unsubscribe = this.props.navigation.addListener('focus', () => {
+            this.getData();
+        });
+    };
 
     componentWillUnmount() {
-
+        if (this.unsubscribe) {
+            this.unsubscribe();
+        }
     }
-
-    componentDidMount() {
-        this.getData();
-
-    };
 
     componentDidUpdate(prevProps, prevState) {
         // console.log('PREVPROPS:', prevProps);
         // console.log('PREVSTATE', prevState);
-        if (prevProps.route.name !== this.props.route.name) {
-
-        }
+        if (prevProps.route.name !== this.props.route.name) { }
     };
 
     async getData() {
@@ -219,7 +210,4 @@ export default class extends Component {
             </View>
         );
     };
-
-
-
 }
