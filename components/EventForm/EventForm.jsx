@@ -14,6 +14,7 @@ import ModalPopup from "../ModalPopup/ModalPopup";
 import DataHelper from '../../utils/DataHelper';
 import WeatherCamera from "../WeatherCamera/WeatherCamera";
 import PhotoCarousel from "../PhotoCarousel/PhotoCarousel";
+import _ from 'lodash';
 
 const EventForm = ({ route, navigation }) => {
     const { id } = route.params;
@@ -36,6 +37,8 @@ const EventForm = ({ route, navigation }) => {
 
     const [showModal, setShowModal] = useState(false);
     const [showCamera, setShowCamera] = useState(false);
+
+    const [upd, setUpd] = useState(0);
 
     const scrollViewRef = useRef();
 
@@ -136,6 +139,7 @@ const EventForm = ({ route, navigation }) => {
         }, 2500);
 
     };
+
     const updateEvent = () => {
         const data = {
             add_date: addDate,
@@ -166,17 +170,25 @@ const EventForm = ({ route, navigation }) => {
         }, 2200);
     };
 
-    const handleEventPhotos = (uri, status) => {
+    const photoUriUpd = useRef(
+        _.debounce(async (uri) => {
+            setPhotoUri(uri);
+        }, 100)
+    ).current
+
+    const handleEventPhotos = async (uri, status) => {
         const photo = {
             event_id: id,
             uri: uri,
             status: status
         };
-        let events_photos = eventPhotos;
-        events_photos.push(photo);
-        setEventPhotos(events_photos);
-        setPhotoUri(uri);
+
+        let updatedPhotos = eventPhotos;
+        updatedPhotos.push(photo);
+
+        setEventPhotos(updatedPhotos);
         scrollBottom();
+        await photoUriUpd(uri);
     }
 
     const cancelForm = () => {
@@ -196,8 +208,6 @@ const EventForm = ({ route, navigation }) => {
         setEventPhotos([]);
         setShowCamera(false);
     };
-
-
 
     return (
 
@@ -220,6 +230,7 @@ const EventForm = ({ route, navigation }) => {
                             onDateChange={(date) => setAddDate(date)}
                             selectedDayColor={MAIN_COLORS.header_tab_forecolor}
                             textStyle={{ color: MAIN_COLORS.row_item_forecolor }}
+
                             previousTitle="Edellinen"
                             nextTitle="Seuraava"
                             weekdays={["Ma", "Ti", "Ke", "To", "Pe", "La", "Su"]}

@@ -34,7 +34,6 @@ export default class PhotoCarousel extends Component {
 
     render() {
         return (
-
             <CustomCarousel
                 data={this.state.eventPhotos}
                 renderItem={({ item, index }) => {
@@ -43,7 +42,7 @@ export default class PhotoCarousel extends Component {
                         <View style={styles.container}>
                             <TouchableOpacity onPress={() => console.log(index, item.id, this.state.eventPhotos)}>
                                 <Image
-                                    key={item.id}
+                                    key={index}
                                     source={{ uri: item.uri }}
                                     style={styles.image}
                                     resizeMode='cover'
@@ -54,7 +53,6 @@ export default class PhotoCarousel extends Component {
                     );
                 }}
             />
-
         );
     }
 }

@@ -2,21 +2,23 @@ import http from '../db';
 
 class SettingsService {
 
+    // async updateSetting(id, data) {
+    //     return await http.post("settings/:id", data);
+    // }
+
     async getSettings() {
         return await http.get('/settings');
     }
 
-    async getSettingById(id) {
-        return await http.get(`/settings/${id}`)
+    async getSettingByName(name) {
+        return await http.get(`/settings/${name}`)
     }
 
-    async addSetting(data) {
+    async saveSettings(data) {
         return await http.post("/settings", data);
     }
 
-    async updateSetting(id, data) {
-        return await http.post("settings/:id", data);
-    }
+
 }
 
 export default new SettingsService;

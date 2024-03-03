@@ -6,6 +6,8 @@ import { MAIN_COLORS } from "../../constants";
 import { SETTINGS_FIELD_NAMES } from "../../utils/WeatherEnums";
 import SettingsService from "../../services/settings.service";
 import ModalPopup from "../ModalPopup/ModalPopup";
+import SelectDropdown from 'react-native-select-dropdown'
+
 export default class extends Component {
     constructor(props) {
         super(props);
@@ -76,6 +78,13 @@ export default class extends Component {
 
     updateFieldValue(field, newValue) {
         const oldData = this.state.settingsData;
+        let field_exists = false;
+        for (el of oldData) {
+            if (field === el.name) {
+                field_exists = true;
+            }
+        }
+
         if (oldData) {
             const newData = oldData.map(item => {
                 if (item.name === field) {
@@ -85,10 +94,23 @@ export default class extends Component {
             });
             this.setState({ settingsData: newData });
         }
+
+        if (!field_exists) {
+            const data = {
+                name: field,
+                value: newValue
+            }
+            this.setState(prevState => ({
+                settingsData: [...prevState.settingsData, data],
+            }));
+        }
     }
 
     saveData = () => {
         this.setState({ showModal: true });
+
+        const ret = SettingsService.saveSettings(this.state.settingsData);
+
 
         setTimeout(() => {
             this.setState({ showModal: false });
@@ -108,7 +130,8 @@ export default class extends Component {
     }
 
     log(...msg) {
-        console.log(...msg);
+
+        console.log(JSON.stringify(...msg, null, 2));
     }
 
     render() {
@@ -122,18 +145,44 @@ export default class extends Component {
                     <ScrollView>
 
                         <View style={{ flex: 1, flexDirection: "column", alignItems: "stretch", margin: 4 }}>
-                            {SETTINGS_FIELD_NAMES.map((item, index) => (
-                                <View style={{}} key={'view-' + index}>
-                                    <Text style={{ color: MAIN_COLORS.header_tab_forecolor, marginLeft: 4 }} key={index}>{item.title}</Text>
-                                    <TextInput
-                                        style={[item.type === 'multitext' ? styles.input_multiline : styles.input, { margin: 6, paddingLeft: 10 }]}
-                                        value={'' + this.getFieldData(item.field)}
-                                        readOnly={false}
-                                        multiline={item.type === 'multitext'}
-                                        onChangeText={(text) => this.updateFieldValue(item.field, text)}
-                                    />
-                                </View>
-                            ))}
+                            {SETTINGS_FIELD_NAMES.map((item, index) => {
+
+                                if (item.type === 'text' || item.type === 'multitext') {
+                                    return (
+                                        <View style={{}} key={'view-' + index}>
+                                            <Text style={{ color: MAIN_COLORS.header_tab_forecolor, marginLeft: 4 }} key={index}>{item.title}:</Text>
+                                            <TextInput
+                                                style={[item.type === 'multitext' ? styles.input_multiline : styles.input, { margin: 6, paddingLeft: 10 }]}
+                                                value={'' + this.getFieldData(item.field)}
+                                                readOnly={false}
+                                                multiline={item.type === 'multitext'}
+                                                onChangeText={(text) => this.updateFieldValue(item.field, text)}
+                                            />
+                                        </View>
+                                    );
+                                }
+
+                                if (item.type === 'select') {
+                                    return (
+                                        <View key={'view-' + index} style={{ flex: 1, flexDirection: "column", margin: 4 }}>
+                                            <Text style={{ color: MAIN_COLORS.header_tab_forecolor }}>{item.title}:</Text>
+                                            <SelectDropdown buttonStyle={{ width: "auto", marginHorizontal: 2, marginTop: 4, backgroundColor: MAIN_COLORS.header_tab_background, borderWidth: 1, borderColor: MAIN_COLORS.header_tab_forecolor, borderRadius: 4, height: 40 }}
+                                                buttonTextStyle={{ color: MAIN_COLORS.row_item_forecolor, fontSize: 14, }}
+                                                dropdownStyle={{ backgroundColor: MAIN_COLORS.row_item_background, padding: 2, marginRight: 2, borderRadius: 6, borderWidth: 2, borderColor: MAIN_COLORS.row_item_bordercolor }}
+                                                rowTextStyle={{ color: MAIN_COLORS.row_item_forecolor, fontSize: 14, padding: 6, paddingTop: 12, height: 40 }}
+                                                selectedRowStyle={{ backgroundColor: MAIN_COLORS.header_tab_background }}
+                                                data={item.items}
+                                                defaultValueByIndex={'' + this.getFieldData(item.field)}
+                                                defaultButtonText={`Valitse ${item.title.toLowerCase()} ...`}
+                                                onSelect={(selectedItem, index) => { this.updateFieldValue(item.field, selectedItem.value) }}
+                                                buttonTextAfterSelection={(selectedItem, index) => { return selectedItem.name }}
+                                                rowTextForSelection={(item, index) => { return item.name }}
+                                            />
+                                        </View>
+                                    )
+                                }
+
+                            })}
                         </View>
 
 
