@@ -18,3 +18,13 @@ export const PhotoStatus =
     'REMOVED': 2,
     'EXISTING': 3
 };
+
+export const ChartType =
+{
+    'LineChart': 1,
+    'BarChart': 2,
+    'PieChart': 3,
+    'ProgressChart': 4,
+    'ContributionGraph': 5,
+    'StackedBarChart': 6
+};

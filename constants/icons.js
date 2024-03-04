@@ -16,6 +16,7 @@ import photo from '../assets/icons/photo.png';
 import take_photo from '../assets/icons/take-photo.png';
 import take_photo32 from '../assets/icons/take-photo32.png';
 import take_photo48 from '../assets/icons/take-photo48.png';
+import chart24 from '../assets/icons/chart24.png';
 
 import back_arrow1_24 from '../assets/icons/back-arrow-1-24.png';
 import back_arrow1_32 from '../assets/icons/back-arrow-1-32.png';
@@ -44,6 +45,7 @@ export default {
     take_photo,
     take_photo32,
     take_photo48,
+    chart24,
     back_arrow1_24,
     back_arrow1_32,
     back_arrow1_48,

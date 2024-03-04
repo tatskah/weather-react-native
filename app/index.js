@@ -11,19 +11,19 @@ import { NavigationContainer } from "@react-navigation/native";
 
 // import PermissionsManagement from "../utils/Permissions";
 import { WeatherEnums } from "../utils/WeatherEnums";
-// import SplashScreen from 'rn-splash-screen';
 import { useEffect } from "react";
 import { MAIN_COLORS } from "../constants";
+import WeatherChart from "../components/WeatherChart/WeatherChart";
 
 const Index = () => {
   const Tab = createBottomTabNavigator();
   const router = useRouter();
   const navigation = useNavigation();
 
-  // StatusBar.setBackgroundColor(MAIN_COLORS.header_tab_background);
-  // StatusBar.setBarStyle('light-content');
-
+  StatusBar.setBackgroundColor(MAIN_COLORS.header_tab_background);
+  StatusBar.setBarStyle('light-content');
   // if (Platform.OS == 'android')
+
   // {
   //   if (PermissionsManagement.checkPermission(WeatherEnums.LOCATION))
   //   {
@@ -42,12 +42,6 @@ const Index = () => {
       <Stack.Screen options={{
         headerTitle: 'Sääohjelma',
       }} />
-
-      <StatusBar
-        translucent
-        backgroundColor={MAIN_COLORS.header_tab_background}
-        barStyle="dark-content"
-      />
 
       <NavigationContainer independent={true}>
         <Tab.Navigator
@@ -83,6 +77,16 @@ const Index = () => {
               tabBarLabelStyle: { color: styles.tab_navi_bottom.activeColor },
               tabBarIcon: () => (
                 <Image source={icons.events} style={styles.toolbar_bottom_icon} />
+              )
+            }}
+          />
+
+          <Tab.Screen name='WeatherChart' component={WeatherChart}
+            options={{
+              tabBarLabel: 'Graaffi',
+              tabBarLabelStyle: { color: styles.tab_navi_bottom.activeColor },
+              tabBarIcon: () => (
+                <Image source={icons.chart24} style={styles.toolbar_bottom_icon} />
               )
             }}
           />

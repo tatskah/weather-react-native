@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { Text, View, FlatList, ActivityIndicator } from "react-native";
+import { Text, View, FlatList, ActivityIndicator, StatusBar } from "react-native";
 import mainStyles from '../../styles';
 import styles from './homepage.style';
 import WeatherService from "../../services/weather.service";
 import { format } from 'date-fns';
 import WeatherCard from '../WeatherCard/WeatherCard';
+import { MAIN_COLORS } from "../../constants";
 // import Geolocation from '@react-native-community/geolocation';
 // import { APP_NAME } from '@env';
 
@@ -16,6 +17,8 @@ const HomePage = ({ navigation }) => {
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
+            StatusBar.setBackgroundColor(MAIN_COLORS.header_tab_background);
+            StatusBar.setBarStyle('light-content');
             getWeatherData();
         });
         return unsubscribe;

@@ -11,13 +11,8 @@ import SelectDropdown from 'react-native-select-dropdown'
 export default class extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
-            savingFields: [],
             settingsData: [],
-            isLoading: 2,
-            dynamicProperties: {},
-            url: '',
             showModal: false
         }
     };
@@ -35,8 +30,6 @@ export default class extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        // console.log('PREVPROPS:', prevProps);
-        // console.log('PREVSTATE', prevState);
         if (prevProps.route.name !== this.props.route.name) { }
     };
 
@@ -102,7 +95,6 @@ export default class extends Component {
 
         const ret = SettingsService.saveSettings(this.state.settingsData);
 
-
         setTimeout(() => {
             this.setState({ showModal: false });
         }, 2000);
@@ -121,12 +113,10 @@ export default class extends Component {
     }
 
     log(...msg) {
-
         console.log(JSON.stringify(...msg, null, 2));
     }
 
     render() {
-        const { dynamicProperties } = this.state
         return (
             <View style={mainStyles.container}>
                 <View style={mainStyles.appHeader}>
@@ -172,7 +162,6 @@ export default class extends Component {
                                         </View>
                                     )
                                 }
-
                             })}
                         </View>
 
@@ -197,7 +186,6 @@ export default class extends Component {
                                 <Text style={{ color: MAIN_COLORS.row_item_forecolor, padding: 4, width: "100%", textAlign: "center" }}>Tallenna</Text>
                             </Pressable>
                         </View>
-
 
                         <ModalPopup showModal={this.state.showModal} onDismiss={() => setShowModal(false)} >
                             <View style={{ backgroundColor: MAIN_COLORS.header_tab_background, padding: 20, borderRadius: 10, borderWidth: 1, borderColor: MAIN_COLORS.row_item_forecolor }}>
