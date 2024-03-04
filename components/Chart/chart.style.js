@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     bar_chart: {
         borderWidth: 1,
         borderColor: MAIN_COLORS.row_item_forecolor,
-        marginTop: 30,
+        marginTop: 4,
         marginBottom: 10,
 
     }

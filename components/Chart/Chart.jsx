@@ -22,10 +22,11 @@ const chartConfig = {
 class Chart extends Component {
     constructor(props) {
         super(props);
-        const { data, chartType } = this.props;
+        const { data, chartType, title } = this.props;
         this.state = {
             chartData: data,
             chartType: chartType,
+            title: title,
 
         }
     }
@@ -46,17 +47,20 @@ class Chart extends Component {
 
                 {
                     this.state.chartType === ChartType.BarChart ?
-
-                        <BarChart
-                            style={styles.bar_chart}
-                            data={this.state.chartData}
-                            width={screenWidth - 30}
-                            height={400}
-                            yAxisLabel="$"
-                            chartConfig={chartConfig}
-                            verticalLabelRotation={90}
-                        />
-
+                        <>
+                            <Text style={{ color: MAIN_COLORS.row_item_forecolor, marginTop: 20 }}>{this.state.title}</Text>
+                            <BarChart
+                                style={styles.bar_chart}
+                                data={this.state.chartData}
+                                width={screenWidth - 30}
+                                height={300}
+                                yAxisLabel=""
+                                chartConfig={chartConfig}
+                                verticalLabelRotation={-90}
+                                showBarTops={true}
+                                showValuesOnTopOfBars={true}
+                            />
+                        </>
                         :
                         undefined
 
@@ -68,8 +72,8 @@ class Chart extends Component {
                             style={styles.bar_chart}
                             data={this.state.chartData}
                             width={screenWidth - 30}
-                            height={400}
-                            // yAxisLabel="$"
+                            height={300}
+                            yAxisLabel=""
                             chartConfig={chartConfig}
                             verticalLabelRotation={90}
                             bezier={true}

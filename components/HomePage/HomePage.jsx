@@ -77,7 +77,8 @@ const HomePage = ({ navigation }) => {
                             || item === day + 'T08:00'
                             || item === day + 'T12:00'
                             || item === day + 'T16:00'
-                            || item === day + 'T20:00') {
+                            || item === day + 'T20:00'
+                        ) {
                             return {
                                 'time': format(hourly.hourly.time[index], 'dd.MM.yyyy HH:mm'),
                                 'temperature': hourly.hourly.temperature_2m[index],
@@ -109,7 +110,7 @@ const HomePage = ({ navigation }) => {
         </View>
     );
 
-    const prt = (msg) => { console.log(msg); }
+    const prt = (msg) => { console.log(JSON.stringify(msg, null, 2)); }
 
     return (
         <View style={mainStyles.container}>
