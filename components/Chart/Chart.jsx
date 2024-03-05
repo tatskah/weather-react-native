@@ -9,13 +9,13 @@ import { ChartType } from "../../utils/WeatherEnums";
 const screenWidth = Dimensions.get("window").width;
 const chartConfig = {
     backgroundGradientFrom: MAIN_COLORS.header_tab_background,
-    backgroundGradientFromOpacity: 30,
+    backgroundGradientFromOpacity: 5,
     backgroundGradientTo: MAIN_COLORS.header_tab_background_to_grad,
-    backgroundGradientToOpacity: 10,
+    backgroundGradientToOpacity: 0.6,
     color: (opacity = 1) => `rgba(252, 180, 25 , ${opacity})`,
     strokeWidth: 1,
     barPercentage: 0.5,
-    useShadowColorFromDataset: false, // optional
+    useShadowColorFromDataset: false,
 
 };
 
@@ -24,10 +24,9 @@ class Chart extends Component {
         super(props);
         const { data, chartType, title } = this.props;
         this.state = {
-            chartData: data,
+            data: data,
             chartType: chartType,
             title: title,
-
         }
     }
 
@@ -41,22 +40,19 @@ class Chart extends Component {
 
     render() {
         return (
-
-
             <View>
-
                 {
                     this.state.chartType === ChartType.BarChart ?
                         <>
-                            <Text style={{ color: MAIN_COLORS.row_item_forecolor, marginTop: 20 }}>{this.state.title}</Text>
+                            <Text style={{ color: MAIN_COLORS.row_item_forecolor, marginTop: 20 }}>{this.state.title}:</Text>
                             <BarChart
                                 style={styles.bar_chart}
-                                data={this.state.chartData}
+                                data={this.state.data}
                                 width={screenWidth - 30}
                                 height={300}
                                 yAxisLabel=""
                                 chartConfig={chartConfig}
-                                verticalLabelRotation={-90}
+                                verticalLabelRotation={90}
                                 showBarTops={true}
                                 showValuesOnTopOfBars={true}
                             />
@@ -67,7 +63,6 @@ class Chart extends Component {
                 }
                 {
                     this.state.chartType === ChartType.LineChart ?
-
                         <LineChart
                             style={styles.bar_chart}
                             data={this.state.chartData}
@@ -78,11 +73,9 @@ class Chart extends Component {
                             verticalLabelRotation={90}
                             bezier={true}
                         />
-
                         :
                         undefined
                 }
-
                 {
                     this.state.chartType === ChartType.PieChart ?
 
@@ -98,16 +91,12 @@ class Chart extends Component {
                             center={[0, 0]}
                             absolute
                         />
-
                         :
                         undefined
                 }
 
 
             </View>
-
-
-
         );
     }
 }

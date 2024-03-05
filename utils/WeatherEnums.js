@@ -6,9 +6,9 @@ export const WeatherEnums =
 
 export const SETTINGS_FIELD_NAMES =
     [
-        { field: 'SERVER_ADDRESS', title: 'Palvelimen ip osoite', type: 'text' },
+        // { field: 'SERVER_ADDRESS', title: 'Palvelimen ip osoite', type: 'text' },
         { field: 'WEATHER_URL', title: 'Säädatan https osoite', type: 'multitext' },
-        { field: 'APP_FIELD_TEST', title: 'Testi kenttä', type: 'text' },
+        // { field: 'APP_FIELD_TEST', title: 'Testi kenttä', type: 'text' },
         { field: 'APP_START_VIEW', title: 'Aloitusnäkymä', type: 'select', items: [{ name: 'Valitse aloitusnäyttö...', value: 1 }, { name: 'Graaffi', value: 1 }, { name: 'Säätapahtumat', value: 2 }, { name: 'Säätiedot', value: 3 }] }
     ];
 
@@ -29,42 +29,19 @@ export const ChartType =
     'StackedBarChart': 6
 };
 
-export const chartData = {
-    labels: ["08:00",
-        "09:00",
-        "10:00",
-        "11:00",
-        "12:00",
-        "13:00",
-        "14:00",
-        "15:00",
-        "16:00",
-        "17:00",
-        "18:00",
-        "19:00",
-        "20:00"
-    ],
+export const chartDatas = {
+    labels: ["08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00"],
+    datasets: [{ data: [-1.3, -0.9, -0.2, 0.4, 2.5, 0.4, 0, -1.6, -3.7, -5.1, -6.1, -6.9, -7.5] }],
+    legend: ["Päivän sää"]
+};
+
+export const data = {
+    labels: ["January", "February", "March", "April", "May", "June"],
     datasets: [
         {
-            data: [-1.3,
-            -0.9,
-            -0.2,
-                0.4,
-                2.5,
-                0.4,
-                0,
-            -1.6,
-            -3.7,
-            -5.1,
-            -6.1,
-            -6.9,
-            -7.5
-            ],
-            // color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`, // optional
-            // strokeWidth: 2 // optional
+            data: [20, 45, 28, 80, 99, 43]
         }
-    ],
-    legend: ["Päivän sää"] // optional
+    ]
 };
 
 export const pieData = [

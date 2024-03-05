@@ -1,3 +1,5 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 const NullToStr = (str) => {
     if (null === str) {
@@ -23,9 +25,37 @@ const NullToImageIndex = (imgIndex) => {
     }
 }
 
+const GetStorageData = async (key) => {
+    try {
+        const retValue = await AsyncStorage.getItem(`@Saaohjelma:${key}`);
+        if (retValue !== null) {
+            return retValue;
+        } else {
+            console.log("EI DATAA")
+            return `Item not found with key ${key}`;
+        }
+    } catch (error) {
+        console.log("GetStorageData error:", error);
+    }
+}
 
+const SaveStorageData = async (key, value) => {
+    try {
+        const storageKey = `@Saaohjelma:${key}`;
+        console.log("save value:", value);
+        await AsyncStorage.setItem(storageKey, value);
+    } catch (error) {
+        console.log("SaveStorageData error:", error);
+    }
+}
 
-
-
-
-export default { NullToStr, NullToImageIndex };
+const RemoveStorageData = async (key) => {
+    try {
+        const storageKey = `@Saaohjelma:${key}`;
+        console.log("remove key:", storageKey);
+        await AsyncStorage.removeItem(storageKey);
+    } catch (error) {
+        console.log("RemoveStorageData error:", error);
+    }
+}
+export default { NullToStr, NullToImageIndex, SaveStorageData, GetStorageData, RemoveStorageData };

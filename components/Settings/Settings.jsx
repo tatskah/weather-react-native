@@ -7,20 +7,27 @@ import { SETTINGS_FIELD_NAMES } from "../../utils/WeatherEnums";
 import SettingsService from "../../services/settings.service";
 import ModalPopup from "../ModalPopup/ModalPopup";
 import SelectDropdown from 'react-native-select-dropdown'
+import DataHelper from "../../utils/DataHelper";
 
 export default class extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            serverURL: '',
             settingsData: [],
             showModal: false
         }
+    };
+
+    handleTextChange = (text) => {
+        this.setState({ serverURL: text.toLowerCase() });
     };
 
     componentDidMount() {
         this.unsubscribe = this.props.navigation.addListener('focus', () => {
             this.getData();
         });
+        // DataHelper.RemoveStorageData('SERVER_URL');
     };
 
     componentWillUnmount() {
@@ -33,14 +40,32 @@ export default class extends Component {
         if (prevProps.route.name !== this.props.route.name) { }
     };
 
+    saveServerUrl = async () => {
+        console.log(this.state.serverURL)
+        await DataHelper.SaveStorageData('SERVER_URL', this.state.serverURL);
+
+        this.showDataUpdated(false);
+    }
+
+    async getServerUrl() {
+        const val = await DataHelper.GetStorageData('SERVER_URL');
+        this.setState({ serverURL: val });
+    }
+
+
     async getData() {
         try {
-            const { data } = await SettingsService.getSettings();
+            let { data } = await SettingsService.getSettings();
             if (data) {
+                const settingsFields = { settingsFields: SETTINGS_FIELD_NAMES };
+                data.push(settingsFields);
                 const newData = await data.map(item => {
                     return item;
                 });
                 this.setState({ settingsData: newData });
+
+                const url = this.getServerUrl();
+
             }
         } catch (error) {
             console.log('ERROR:', error);
@@ -91,17 +116,22 @@ export default class extends Component {
     }
 
     saveData = () => {
-        this.setState({ showModal: true });
-
         const ret = SettingsService.saveSettings(this.state.settingsData);
+        this.showDataUpdated(true);
+    }
+
+    showDataUpdated = (navigateToEvents) => {
+        this.setState({ showModal: true });
 
         setTimeout(() => {
             this.setState({ showModal: false });
         }, 2000);
 
-        setTimeout(() => {
-            this.props.navigation.navigate("Events");
-        }, 2500);
+        if (navigateToEvents) {
+            setTimeout(() => {
+                this.props.navigation.navigate("Events");
+            }, 2500);
+        }
     }
 
     cancelForm = () => {
@@ -109,12 +139,13 @@ export default class extends Component {
     }
 
     resetForm = () => {
-        this.setState({ settingsData: [] })
+        this.setState({ settingsData: [] });
     }
 
     log(...msg) {
         console.log(JSON.stringify(...msg, null, 2));
     }
+    prt = (msg) => { console.log(JSON.stringify(msg, null, 2)); }
 
     render() {
         return (
@@ -126,6 +157,24 @@ export default class extends Component {
                     <ScrollView>
 
                         <View style={{ flex: 1, flexDirection: "column", alignItems: "stretch", margin: 4 }}>
+                            <View>
+                                <Text style={{ color: MAIN_COLORS.header_tab_forecolor, marginLeft: 4 }}>Palvelin URL:</Text>
+                                <TextInput
+                                    style={[styles.input, { margin: 6, paddingLeft: 10 }]}
+                                    value={this.state.serverURL}
+                                    readOnly={false}
+                                    onChangeText={(text) => this.handleTextChange(text)}
+                                />
+
+                                <Pressable
+                                    style={[styles.input, { margin: 8, flex: 1, backgroundColor: MAIN_COLORS.form_button_background }]}
+                                    onPress={this.saveServerUrl}
+                                >
+                                    <Text style={{ color: MAIN_COLORS.row_item_forecolor, padding: 4, width: "100%", textAlign: "center" }}>Tallenna palvelimen URL</Text>
+                                </Pressable>
+                            </View>
+
+
                             {SETTINGS_FIELD_NAMES.map((item, index) => {
 
                                 if (item.type === 'text' || item.type === 'multitext') {

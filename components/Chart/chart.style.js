@@ -16,10 +16,12 @@ const styles = StyleSheet.create({
         backgroundColor: MAIN_COLORS.row_item_background,
     },
     bar_chart: {
+        padding: 4,
         borderWidth: 1,
         borderColor: MAIN_COLORS.row_item_forecolor,
         marginTop: 4,
         marginBottom: 10,
+        marginRight: 0
 
     }
 });

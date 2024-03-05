@@ -14,6 +14,7 @@ import { WeatherEnums } from "../utils/WeatherEnums";
 import { useEffect } from "react";
 import { MAIN_COLORS } from "../constants";
 import WeatherChart from "../components/WeatherChart/WeatherChart";
+import DataHelper from "../utils/DataHelper";
 
 const Index = () => {
   const Tab = createBottomTabNavigator();
@@ -35,6 +36,25 @@ const Index = () => {
   //   }
 
   // }
+
+  useEffect(() => {
+    const url = getServerUri();
+    if (!url) {
+      navigation.navigate("Settings");
+    }
+  });
+
+
+
+  const getServerUri = async () => {
+    const serverURL = await DataHelper.GetStorageData('SERVER_URL')
+    if (serverURL) {
+      return serverURL;
+    } else {
+      return null;
+    }
+  }
+
 
   return (
     <GestureHandlerRootView style={styles.container}>
