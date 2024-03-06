@@ -34,7 +34,7 @@ export default ConfirmForm = ({ showDialog, isCustomDialog, title, description, 
 
                 :
                 <ConfirmDialog
-                    buttonsStyle={styles.buttonsStyle}
+                    buttonsStyle={styles.buttonStyle}
                     dialogStyle={styles.dialogStyle}
                     titleStyle={styles.titleStyle}
                     messageStyle={styles.messageStyle}
@@ -48,13 +48,13 @@ export default ConfirmForm = ({ showDialog, isCustomDialog, title, description, 
                         borderColor: MAIN_COLORS.row_item_forecolor,
                         title: "Ok",
                         titleStyle: { color: MAIN_COLORS.row_item_forecolor, },
-                        style: { marginTop: 20, fontSize: 14, alignContent: "center", height: 40, borderRadius: 4, borderColor: MAIN_COLORS.header_tab_forecolor, borderWidth: 1, },
+                        style: { marginTop: 0, fontSize: 14, alignContent: "center", height: 40, borderRadius: 4, borderColor: MAIN_COLORS.header_tab_forecolor, borderWidth: 0.3, },
                         onPress: () => handleButtonPressed(true)
                     }}
                     negativeButton={{
                         title: "Peruuta",
                         titleStyle: { color: MAIN_COLORS.row_item_forecolor, },
-                        style: { marginTop: 20, fontSize: 14, alignContent: "center", height: 40, borderRadius: 4, borderColor: MAIN_COLORS.header_tab_forecolor, borderWidth: 1, },
+                        style: { marginTop: 0, fontSize: 14, alignContent: "center", height: 40, borderRadius: 4, borderColor: MAIN_COLORS.header_tab_forecolor, borderWidth: 0.3, },
                         onPress: () => onCancel()
                     }}
                 />

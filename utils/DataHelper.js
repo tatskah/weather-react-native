@@ -29,10 +29,10 @@ const GetStorageData = async (key) => {
     try {
         const retValue = await AsyncStorage.getItem(`@Saaohjelma:${key}`);
         if (retValue !== null) {
+            console.log(retValue);
             return retValue;
         } else {
-            console.log("EI DATAA")
-            return `Item not found with key ${key}`;
+            return '';
         }
     } catch (error) {
         console.log("GetStorageData error:", error);

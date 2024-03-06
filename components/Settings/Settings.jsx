@@ -237,7 +237,7 @@ export default class extends Component {
                         </View>
 
                         <ModalPopup showModal={this.state.showModal} onDismiss={() => setShowModal(false)} >
-                            <View style={{ backgroundColor: MAIN_COLORS.header_tab_background, padding: 20, borderRadius: 10, borderWidth: 1, borderColor: MAIN_COLORS.row_item_forecolor }}>
+                            <View style={{ backgroundColor: MAIN_COLORS.header_tab_background, padding: 20, borderRadius: 4, borderWidth: 0.4, borderColor: MAIN_COLORS.row_item_forecolor }}>
                                 <Text style={{ color: MAIN_COLORS.row_item_forecolor, padding: 4 }}>Asetukset tallennettu!</Text>
                             </View>
                         </ModalPopup>

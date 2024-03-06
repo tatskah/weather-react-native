@@ -1,71 +1,40 @@
-import { Text, View, Image, Platform, StatusBar } from "react-native";
+import { Image, StatusBar } from "react-native";
 import { Stack, useNavigation, useRouter } from "expo-router";
-
+import { useEffect, useState, useRef } from "react";
 import { icons } from '../constants';
 import styles from '../styles';
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Events, EventForm, HomePage, Settings } from '../components';
-
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
-
-// import PermissionsManagement from "../utils/Permissions";
 import { WeatherEnums } from "../utils/WeatherEnums";
-import { useEffect } from "react";
 import { MAIN_COLORS } from "../constants";
 import WeatherChart from "../components/WeatherChart/WeatherChart";
-import DataHelper from "../utils/DataHelper";
 
 const Index = () => {
   const Tab = createBottomTabNavigator();
+  const isComponentMounted = useRef(false);
   const router = useRouter();
   const navigation = useNavigation();
-
-  StatusBar.setBackgroundColor(MAIN_COLORS.header_tab_background);
-  StatusBar.setBarStyle('light-content');
-  // if (Platform.OS == 'android')
-
-  // {
-  //   if (PermissionsManagement.checkPermission(WeatherEnums.LOCATION))
-  //   {
-  //     console.log('YES');
-  //     //PermissionsManagement.addPermission(WeatherEnums.LOCATION);
-  //   } else
-  //   {
-  //     PermissionsManagement.addPermission(WeatherEnums.LOCATION);
-  //   }
-
-  // }
+  const [serverUrl, setServerUrl] = useState();
+  const [initialRouteName, setInitialRouteName] = useState('Home');
 
   useEffect(() => {
-    const url = getServerUri();
-    if (!url) {
-      navigation.navigate("Settings");
-    }
-  });
-
-
-
-  const getServerUri = async () => {
-    const serverURL = await DataHelper.GetStorageData('SERVER_URL')
-    if (serverURL) {
-      return serverURL;
-    } else {
-      return null;
-    }
-  }
-
+    const unsubscribe = navigation.addListener('focus', () => {
+      StatusBar.setBackgroundColor(MAIN_COLORS.header_tab_background);
+      StatusBar.setBarStyle('light-content');
+    });
+    return unsubscribe;
+  })
 
   return (
     <GestureHandlerRootView style={styles.container}>
-
       <Stack.Screen options={{
         headerTitle: 'Sääohjelma',
       }} />
 
       <NavigationContainer independent={true}>
-        <Tab.Navigator
-          initialRouteName="Home"
+        <Tab.Navigator initialRouteName={initialRouteName}
           screenOptions={({ route }) => ({
             headerShown: false,
             tabBarStyle: {
@@ -139,7 +108,4 @@ const Index = () => {
     </GestureHandlerRootView>
   );
 }
-
-
-
 export default Index;

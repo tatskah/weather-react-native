@@ -6,6 +6,7 @@ import WeatherService from "../../services/weather.service";
 import { format } from 'date-fns';
 import WeatherCard from '../WeatherCard/WeatherCard';
 import { MAIN_COLORS } from "../../constants";
+import DataHelper from "../../utils/DataHelper";
 // import Geolocation from '@react-native-community/geolocation';
 // import { APP_NAME } from '@env';
 
@@ -14,15 +15,28 @@ const HomePage = ({ navigation }) => {
     const [lat, setLat] = useState();
     const [lng, setLng] = useState();
     const [requestError, setRequestError] = useState('');
+    const [serverUrl, setServerUrl] = useState();
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
             StatusBar.setBackgroundColor(MAIN_COLORS.header_tab_background);
             StatusBar.setBarStyle('light-content');
-            getWeatherData();
-        });
-        return unsubscribe;
 
+            async function handleServerURL() {
+                const serverURL = await DataHelper.GetStorageData('SERVER_URL')
+                if (serverURL.length > 0) {
+                    setServerUrl(serverURL);
+                    getWeatherData();
+                } else {
+                    setTimeout(() => {
+                        navigation.navigate("Settings")
+                    }, 500);
+                }
+            }
+            handleServerURL();
+        });
+
+        return unsubscribe;
     }, [navigation])
 
     const getWeatherData = async () => {

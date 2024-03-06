@@ -7,16 +7,18 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
     },
-    buttonsStyle: {
+    buttonStyle: {
         backgroundColor: MAIN_COLORS.header_tab_background,
-        borderRadius: 10,
+        borderRadius: 0,
+        borderWidth: 0.2,
+        borderTopColor: MAIN_COLORS.header_tab_forecolor,
         color: MAIN_COLORS.row_item_bordercolor
     },
     dialogStyle: {
-        height: 240,
+        height: 196,
         backgroundColor: MAIN_COLORS.header_tab_background,
-        borderRadius: 10,
-        borderWidth: 1,
+        borderRadius: 4,
+        borderWidth: 0.4,
         borderColor: MAIN_COLORS.header_tab_forecolor
     },
     titleStyle: {
