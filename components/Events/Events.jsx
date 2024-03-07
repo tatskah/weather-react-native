@@ -3,8 +3,9 @@ import { Text, View, Pressable, Image, FlatList, ActivityIndicator } from "react
 import Event from '../Event/Event'
 import mainStyles from '../../styles';
 import styles from './events.style'
-import { icons } from '../../constants';
+import { MAIN_COLORS, icons } from '../../constants';
 import EventService from '../../services/events.service';
+import * as ScreenOrientation from 'expo-screen-orientation';
 
 const Events = ({ navigation }) => {
     const [data, setData] = useState([]);
@@ -14,8 +15,14 @@ const Events = ({ navigation }) => {
             getData();
         });
         return unsubscribe;
-
     }, [navigation])
+
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('blur', () => {
+
+        });
+        return unsubscribe;
+    });
 
     const getData = async () => {
         const response = await EventService.getEvents();

@@ -1,4 +1,4 @@
-import { Image, StatusBar } from "react-native";
+import { Image, StatusBar, Dimensions } from "react-native";
 import { Stack, useNavigation, useRouter } from "expo-router";
 import { useEffect, useState, useRef } from "react";
 import { icons } from '../constants';
@@ -10,6 +10,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { WeatherEnums } from "../utils/WeatherEnums";
 import { MAIN_COLORS } from "../constants";
 import WeatherChart from "../components/WeatherChart/WeatherChart";
+import * as ScreenOrientation from 'expo-screen-orientation';
 
 const Index = () => {
   const Tab = createBottomTabNavigator();
@@ -23,6 +24,7 @@ const Index = () => {
     const unsubscribe = navigation.addListener('focus', () => {
       StatusBar.setBackgroundColor(MAIN_COLORS.header_tab_background);
       StatusBar.setBarStyle('light-content');
+      ScreenOrientation.unlockAsync();
     });
     return unsubscribe;
   })

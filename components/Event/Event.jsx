@@ -7,39 +7,10 @@ import EventsService from "../../services/events.service";
 import WeatherTypes from "../../utils/WeatherTypes";
 import DataHelper from '../../utils/DataHelper';
 import ConfirmForm from "../ConfirmForm/ConfirmForm";
-// import * as ScreenOrientation from "expo-screen-orientation";
 
 const Event = ({ item, navigation, reloadData }) => {
     const [data, setData] = useState(item);
     const [showConfirmForm, setShowConfirmForm] = useState(false);
-    // const [orientation, setOrientation] = useState(4);
-
-    // useEffect(() => {
-    //     console.log("KÖKÖKÖ");
-    //     checkOrientation();
-    //     const subscription = ScreenOrientation.addOrientationChangeListener(
-    //         handleOrientationChange
-    //     );
-    //     changeOrientation
-    //     return () => {
-    //         ScreenOrientation.removeOrientationChangeListeners(subscription);
-    //     };
-    // }, []);
-
-    // const checkOrientation = async () => {
-    //     const orientation = await ScreenOrientation.getOrientationAsync();
-    //     setOrientation(orientation);
-    // };
-    // const changeOrientation = async (newOrientation) => {
-    //     console.log("newOrientation: ", newOrientation);
-    //     await ScreenOrientation.lockAsync(newOrientation);
-    // };
-    // const handleOrientationChange = (o) => {
-    //     console.log(o.orientationInfo.orientation);
-    //     setOrientation(o.orientationInfo.orientation);
-    // };
-
-
 
     const deleteEvent = () => {
         try {

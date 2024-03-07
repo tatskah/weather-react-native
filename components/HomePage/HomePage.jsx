@@ -28,9 +28,9 @@ const HomePage = ({ navigation }) => {
                     setServerUrl(serverURL);
                     getWeatherData();
                 } else {
-                    setTimeout(() => {
-                        navigation.navigate("Settings")
-                    }, 500);
+                    // setTimeout(() => {
+                    //     navigation.navigate("Settings")
+                    // }, 500);
                 }
             }
             handleServerURL();

@@ -21,6 +21,12 @@
           }
         }
       ],
+      [
+        "expo-screen-orientation",
+        {
+          "initialOrientation": "DEFAULT"
+        }
+      ],
       "expo-router"
     ],
     "version": "1.0.0",

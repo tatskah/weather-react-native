@@ -29,7 +29,6 @@ const GetStorageData = async (key) => {
     try {
         const retValue = await AsyncStorage.getItem(`@Saaohjelma:${key}`);
         if (retValue !== null) {
-            console.log(retValue);
             return retValue;
         } else {
             return '';
@@ -42,7 +41,6 @@ const GetStorageData = async (key) => {
 const SaveStorageData = async (key, value) => {
     try {
         const storageKey = `@Saaohjelma:${key}`;
-        console.log("save value:", value);
         await AsyncStorage.setItem(storageKey, value);
     } catch (error) {
         console.log("SaveStorageData error:", error);
