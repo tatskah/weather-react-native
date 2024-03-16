@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
     date_add: {
         flex: 4,
         fontWeight: "bold",
+        fontSize: 14,
         color: MAIN_COLORS.header_tab_forecolor,
     },
     temp_morning: {
@@ -61,13 +62,13 @@ const styles = StyleSheet.create({
 
     photoIcon: {
         flex: 1,
-        width: 18,
-        height: 18,
+        width: 16,
+        height: 16,
     },
 
     deleteIcon: {
-        width: 22,
-        height: 22,
+        width: 18,
+        height: 18,
     },
 
 

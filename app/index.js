@@ -1,4 +1,4 @@
-import { Image, StatusBar, Dimensions } from "react-native";
+import { Image, StatusBar, Dimensions, Platform } from "react-native";
 import { Stack, useNavigation, useRouter } from "expo-router";
 import { useEffect, useState, useRef } from "react";
 import { icons } from '../constants';
@@ -24,7 +24,11 @@ const Index = () => {
     const unsubscribe = navigation.addListener('focus', () => {
       StatusBar.setBackgroundColor(MAIN_COLORS.header_tab_background);
       StatusBar.setBarStyle('light-content');
-      ScreenOrientation.unlockAsync();
+
+      if (Platform.OS === 'android') {
+        ScreenOrientation.unlockAsync();
+      }
+
     });
     return unsubscribe;
   })

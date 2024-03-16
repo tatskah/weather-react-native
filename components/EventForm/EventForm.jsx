@@ -220,7 +220,7 @@ const EventForm = ({ route, navigation }) => {
             </View>
             <View style={styles.content}>
                 <ScrollView ref={scrollViewRef}>
-                    <View style={{ alignContent: "center", backgroundColor: MAIN_COLORS.container_background }}>
+                    <View style={{ alignContent: "center", backgroundColor: MAIN_COLORS.row_item_background }}>
                         <CalendarPicker
                             startFromMonday={true}
                             // scrollable={true}

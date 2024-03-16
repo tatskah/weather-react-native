@@ -18,7 +18,20 @@ const styles = StyleSheet.create({
     card: {
         flex: 1,
         flexDirection: "row",
-        backgroundColor: MAIN_COLORS.container_background,
+        backgroundColor: MAIN_COLORS.row_item_background,
+        height: 50,
+        borderWidth: 1,
+        borderRadius: 6,
+        borderColor: MAIN_COLORS.row_item_bordercolor,
+        margin: 2,
+        padding: 6,
+        color: MAIN_COLORS.row_item_bordercolor,
+
+    },
+    card_passed: {
+        flex: 1,
+        flexDirection: "row",
+        backgroundColor: MAIN_COLORS.row_item_lighter_background,
         height: 50,
         borderWidth: 1,
         borderRadius: 6,

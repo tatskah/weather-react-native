@@ -40,7 +40,7 @@ export default class PhotoCarousel extends Component {
                     return (
                         // <PanGestureHandler>
                         <View style={styles.container}>
-                            <TouchableOpacity onPress={() => console.log(index, item.id, this.state.eventPhotos)}>
+                            <TouchableOpacity>
                                 <Image
                                     key={index}
                                     source={{ uri: item.uri }}
